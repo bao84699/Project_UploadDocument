@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+Thambi+2:wght@400..800&family=Diplomata&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Kablammo&family=Michroma&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+Thambi+2:wght@400..800&family=Diplomata&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Michroma&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+Thambi+2:wght@400..800&family=Diplomata&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Michroma&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+Thambi+2:wght@400..800&family=Diplomata&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Michroma&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <title>Ngân hàng tài liệu</title>
+</head>
+<body>
+    <header class="container">
+        <div class="logo"><img src="Pictures/Logo.svg" alt=""></div>
+        <nav>
+            <a href="" class="active">Trang chủ</a>
+            <a href="">Giới thiệu</a>
+            <a href="">Liệu hệ</a>
+        </nav>
+        <div class="action-btn">
+            <button class="btn-upload" id="btn-upload">Tải tài liệu lên</button>
+            <button class="btn-user"><i data-lucide="user-round"></i></button>
+        </div>
+    </header>
+    <div class="overlay" id="overlay">
+        <div class="upload-form">
+            <div class="logo-upload">
+                <img src="Pictures/image 2.svg" alt="">
+            </div>
+            <div class="title">
+                Kéo và thả tệp
+            </div>
+            <p>------ Hoặc ------</p>
+            <button id="upload-file">
+                <i data-lucide="cloud-upload"></i>
+                Chọn tệp
+            </button>
+            <p>Chỉ hỗ trợ các tệp pdf, docx, pptx,...</p>
+            <button id="submit">Hoàn tất</button>
+        </div>
+    </div>
+    <div class="section">
+        <div class="title_top">Tài Liệu Khó, Có</div>
+        <div class="title_bottom">Doc<span>Z</span>one</div>
+        <div class="mascot">
+            <img src="Pictures/Chicaleda.svg" alt="">
+        </div>
+        <div class="wrap-search">
+            <i data-lucide="search"></i>
+            <input type="text" id="searchip" placeholder="Tìm kiếm tài liệu ...">
+        </div>
+    </div>
+    <div class="section-newUp">
+        <div class="title">
+            <i data-lucide="sparkles"></i>
+            <p>Tài liệu mới tải lên</p>
+        </div>
+        <div class="wrap">
+            <div class="arrow">
+                <i data-lucide="arrow-left"></i>
+            </div>
+            <div class="wrap-inner">
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/word.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="arrow">
+                <i data-lucide="arrow-right"></i>
+            </div>
+        </div>
+    </div>
+    <div class="section-newUp">
+        <div class="title">
+            <i data-lucide="flame"></i>
+            <p>Tài liệu đánh giá cao</p>
+        </div>
+        <div class="wrap">
+            <div class="arrow">
+                <i data-lucide="arrow-left"></i>
+            </div>
+            <div class="wrap-inner">
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/word.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="arrow">
+                <i data-lucide="arrow-right"></i>
+            </div>
+        </div>
+    </div>
+    <div class="section-newUp">
+        <div class="title">
+            <i data-lucide="file-badge"></i>
+            <p>Tài liệu đánh giá cao</p>
+        </div>
+        <div class="wrap">
+            <div class="arrow">
+                <i data-lucide="arrow-left"></i>
+            </div>
+            <div class="wrap-inner">
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/word.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="arrow">
+                <i data-lucide="arrow-right"></i>
+            </div>
+        </div>
+    </div>
+    <div class="section-newUp">
+        <div class="title a">
+            <div class="left">
+                <i data-lucide="folder-search"></i>
+                <p>Tài liệu theo phân loại</p>
+            </div>
+            <div class="filter">
+                <div class="box">
+                    <select name="" id="">
+                        <option value="" hidden>Môn học</option>
+                        <option value="">HTML/CSS</option>
+                        <option value="">Kinh tế chính trị</option>
+                        <option value="">Hệ thống máy tính</option>
+                        <option value="">Toán cao cấp</option>
+                    </select>
+                </div>
+                <div class="box">
+                    <select name="" id="">
+                        <option value="" hidden>Thể loại</option>
+                        <option value="">HTML/CSS</option>
+                        <option value="">Kinh tế chính trị</option>
+                        <option value="">Hệ thống máy tính</option>
+                        <option value="">Toán cao cấp</option>
+                    </select>
+                </div>
+                <div class="box">
+                    <select name="" id="">
+                        <option value="" hidden>Năm học</option>
+                        <option value="">HTML/CSS</option>
+                        <option value="">Kinh tế chính trị</option>
+                        <option value="">Hệ thống máy tính</option>
+                        <option value="">Toán cao cấp</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="wrap">
+            <div class="arrow">
+                <i data-lucide="arrow-left"></i>
+            </div>
+            <div class="wrap-inner">
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/pdf.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/word.svg" alt="">
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="arrow">
+                <i data-lucide="arrow-right"></i>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer">
+            <div class="top">
+                <div class="item">
+                    <div class="logo">
+                        <img src="Pictures/Logo.svg" alt="">
+                    </div>
+                    <p>Cảm ơn bạn vì đã chọn dừng chân ở trang web này, chúc bạn có thể tìm được tài liệu mong muốn và thành công trong học tập</p>
+                </div>
+                <div class="item1">
+                    <div class="title">Khám phá</div>
+                    <div class="link">
+                        <p>Đề thi</p>
+                        <p>Bài giảng</p>
+                    </div>
+                </div>
+                <div class="item1">
+                    <div class="title">Cộng đồng</div>
+                    <div class="link">
+                        <p>Tải tài liệu lên</p>
+                    </div>
+                </div>
+                <div class="item1">
+                    <div class="title">Mạng xã hội</div>
+                    <div class="social">
+                        <div class="box">
+                            <i data-lucide="facebook"></i>
+                        </div>
+                        <div class="box">
+                            <i data-lucide="youtube"></i>
+                        </div>
+                        <div class="box">
+                            <i data-lucide="instagram"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="index.js"></script>
+</body>
+</html>
