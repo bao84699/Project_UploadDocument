@@ -18,15 +18,35 @@
         <nav>
             <a href="" class="active">Trang chủ</a>
             <a href="">Giới thiệu</a>
-            <a href="">Liệu hệ</a>
+            <a href="contact.html">Liện hệ</a>
         </nav>
-        <div class="action-btn">
-            <button class="btn-upload" id="btn-upload">Tải tài liệu lên</button>
-            <button class="btn-user"><i data-lucide="user-round"></i></button>
+        <div class="notification">
+            <div class="search">
+                <input type="text" placeholder="Tìm kiếm ...">
+                <div class="btn-search">
+                    <i data-lucide="search"></i>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="login" id="dropdownBtn">
+                    <img src="Pictures/pet_cloud_uside 1.svg" alt="">
+                </div>
+                <ul class="dropdown-content" id="dropdownMenu">
+                    <li><a href="#" id="user">Thành viên</a></li>
+                    <li><a href="#" id="admin">Admin</a></li>
+                </ul>
+            </div>
+            <div class="notifi">
+                <i data-lucide="bell-ring"></i>
+            </div>
         </div>
     </header>
-    <div class="overlay" id="overlay">
-        <div class="upload-form">
+    <div class="overlay" id="uploadForm">
+        <div class="upload-form" id="drop-zone">
+            <div class="file-icon">
+                <img src="Pictures/icon-file.png" alt="">
+            </div>
+            <input type="file" id="file-input" style="display: none;" >
             <div class="logo-upload">
                 <img src="Pictures/image 2.svg" alt="">
             </div>
@@ -42,173 +62,110 @@
             <button id="submit">Hoàn tất</button>
         </div>
     </div>
+    <div class="overlay2" id="overlay2">
+        <div class="upload-form2">
+            <div class="title">
+                <div class="filename" id="fileName"></div>
+                <button id="close">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <label for="fileInput" class="import-container">
+                <div class="importPicture">
+                    <img id="previewImg" src="Pictures/importPicture.svg" alt="Click để chọn ảnh">
+                </div>
+                <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg" hidden>
+                <p>Tải ảnh lên</p>
+            </label>
+            <div class="information">
+                <div class="item2">
+                    <div class="name">Mã trường:</div>
+                    <input type="text" id="schoolCode" name="schoolCode" class="input" placeholder="-- Chọn mã trường --">
+                </div>
+
+                <div class="item2">
+                    <div class="name">Tên file:</div>
+                    <input type="text" id="fileName" name="fileName" class="input full" placeholder="-- Tên tài liệu --">
+                </div>
+
+                <div class="wrap-item">
+                    <div class="item2">
+                        <div class="name">Môn học:</div>
+                        <select id="subject" name="subject" class="input">
+                            <option value="">-- Chọn môn học --</option>
+                            <option value="kinhtechinhtri">Kinh tế chính trị</option>
+                            <option value="triethoc">Triết học MacLenin</option>
+                            <option value="hethongmaytinh">Hệ thống máy tính</option>
+                            <option value="kithuatlaptrinh">Kĩ thuật lập trình</option>
+                            <option value="HTMLCSSJS">HTMLCSSJS</option>
+                        </select>
+                    </div>
+
+                    <div class="item2">
+                        <div class="name">Năm học:</div>
+                        <select id="academicYear" name="academicYear" class="input">
+                            <option value="">-- Chọn năm học --</option>
+                            </select>
+                    </div>
+                </div>
+
+                <div class="wrap-item">
+                    <div class="item2">
+                        <div class="name">Phân loại:</div>
+                        <select id="category" name="category" class="input">
+                            <option value="">-- Chọn phân loại --</option>
+                            <option value="Giáo trình/Slide">Giáo trình/Slide</option>
+                            <option value="Bài tập">Bài tập</option>
+                            <option value="Đồ án">Đồ án</option>
+                        </select>
+                    </div>
+
+                    <div class="item2">
+                        <div class="name">Tác giả:</div>
+                        <input type="text" id="author" name="author" class="input" placeholder="-- Tên tác giả --">
+                    </div>
+                </div>
+
+                <div class="item2">
+                    <div class="name">Giới thiệu tổng quan:</div>
+                   <input type="text" class="input full" placeholder="-- Giới thiệu tổng quan --">
+                </div>
+            </div>
+            <button id="submit2">Gửi</button>
+        </div>
+    </div>
     <div class="section">
         <div class="title_top">Tài Liệu Khó, Có</div>
         <div class="title_bottom">Doc<span>Z</span>one</div>
-        <div class="mascot">
-            <img src="Pictures/Chicaleda.svg" alt="">
+        <div class="mascot-wrapper">
+            <div class="mascot">
+                <img src="Pictures/Chicaleda.svg" alt="">
+            </div>
+            <div class="container-icon">
+                <div class="icon icon-1"><img src="Pictures/pdf-icon.svg" alt=""></div>
+                <div class="icon icon-2"><img src="Pictures/word-icon.svg" alt=""></div>
+                <div class="icon icon-3"><img src="Pictures/exel.svg" alt=""></div>
+                <div class="icon icon-4"><img src="Pictures/download.svg" alt=""></div>
+            </div>
         </div>
         <div class="wrap-search">
-            <i data-lucide="search"></i>
+            <i data-lucide="search" id="search"></i>
             <input type="text" id="searchip" placeholder="Tìm kiếm tài liệu ...">
+            <div class="nextstep" id="nextstep">
+                <img src="Pictures/arrow-right.svg" alt="">
+            </div>
         </div>
     </div>
     <div class="section-newUp">
-        <div class="title">
-            <i data-lucide="sparkles"></i>
-            <p>Tài liệu mới tải lên</p>
-        </div>
-        <div class="wrap">
-            <div class="arrow">
-                <i data-lucide="arrow-left"></i>
+        <div class="title a">
+            <div class="left">
+                <i data-lucide="sparkles"></i>
+                <p>Tài liệu mới tải lên</p>
             </div>
-            <div class="wrap-inner">
-                <div class="item">
-                    <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
-                    </div>
-                    <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
-                            </div>
-                        </div>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="action-btn">
-                        <button class="view">Xem chi tiết</button>
-                        <button class="bookmark">
-                            <i data-lucide="bookmark" ></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
-                    </div>
-                    <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
-                            </div>
-                        </div>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="action-btn">
-                        <button class="view">Xem chi tiết</button>
-                        <button class="bookmark">
-                            <i data-lucide="bookmark" ></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
-                    </div>
-                    <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
-                            </div>
-                        </div>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="action-btn">
-                        <button class="view">Xem chi tiết</button>
-                        <button class="bookmark">
-                            <i data-lucide="bookmark" ></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pic">
-                        <img src="Pictures/word.svg" alt="">
-                    </div>
-                    <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
-                            </div>
-                        </div>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="action-btn">
-                        <button class="view">Xem chi tiết</button>
-                        <button class="bookmark">
-                            <i data-lucide="bookmark" ></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="arrow">
+            <a class="right" href="allfile.html">
+                <p class="viewmore">Xem tất cả</p>
                 <i data-lucide="arrow-right"></i>
-            </div>
-        </div>
-    </div>
-    <div class="section-newUp">
-        <div class="title">
-            <i data-lucide="flame"></i>
-            <p>Tài liệu đánh giá cao</p>
+            </a>
         </div>
         <div class="wrap">
             <div class="arrow">
@@ -217,7 +174,15 @@
             <div class="wrap-inner">
                 <div class="item">
                     <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
+                        <img src="Pictures/KTCT.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/pdf.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
                     </div>
                     <div class="descript">
                         <p>KTCT - MacLenin - Chuong ...</p>
@@ -251,10 +216,18 @@
                 </div>
                 <div class="item">
                     <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
+                        <img src="Pictures/KNLVN.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/word.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
                     </div>
                     <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <p>Ki nang lam viec nhom...</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
@@ -285,10 +258,18 @@
                 </div>
                 <div class="item">
                     <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
+                        <img src="Pictures/CNXH.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/pdf.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
                     </div>
                     <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <p>Chu nghia xa hoi...</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
@@ -319,10 +300,18 @@
                 </div>
                 <div class="item">
                     <div class="pic">
-                        <img src="Pictures/word.svg" alt="">
+                        <img src="Pictures/MacLenin.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/pdf.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
                     </div>
                     <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <p>Triet hoc MacLenin ...</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
@@ -351,158 +340,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
-            <div class="arrow">
-                <i data-lucide="arrow-right"></i>
-            </div>
-        </div>
-    </div>
-    <div class="section-newUp">
-        <div class="title">
-            <i data-lucide="file-badge"></i>
-            <p>Tài liệu đánh giá cao</p>
-        </div>
-        <div class="wrap">
-            <div class="arrow">
-                <i data-lucide="arrow-left"></i>
-            </div>
-            <div class="wrap-inner">
-                <div class="item">
-                    <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
-                    </div>
-                    <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
-                            </div>
-                        </div>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="action-btn">
-                        <button class="view">Xem chi tiết</button>
-                        <button class="bookmark">
-                            <i data-lucide="bookmark" ></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
-                    </div>
-                    <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
-                            </div>
-                        </div>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="action-btn">
-                        <button class="view">Xem chi tiết</button>
-                        <button class="bookmark">
-                            <i data-lucide="bookmark" ></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
-                    </div>
-                    <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
-                            </div>
-                        </div>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="action-btn">
-                        <button class="view">Xem chi tiết</button>
-                        <button class="bookmark">
-                            <i data-lucide="bookmark" ></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pic">
-                        <img src="Pictures/word.svg" alt="">
-                    </div>
-                    <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
-                            </div>
-                        </div>
-                        <div class="frame">
-                            <div class="item">
-                                <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
-                            </div>
-                            <div class="item">
-                                <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="action-btn">
-                        <button class="view">Xem chi tiết</button>
-                        <button class="bookmark">
-                            <i data-lucide="bookmark" ></i>
-                        </button>
-                    </div>
-                </div>
+                
             </div>
             <div class="arrow">
                 <i data-lucide="arrow-right"></i>
@@ -512,38 +350,13 @@
     <div class="section-newUp">
         <div class="title a">
             <div class="left">
-                <i data-lucide="folder-search"></i>
-                <p>Tài liệu theo phân loại</p>
+                <i data-lucide="flame"></i>
+                <p>Tài liệu phổ biến</p>
             </div>
-            <div class="filter">
-                <div class="box">
-                    <select name="" id="">
-                        <option value="" hidden>Môn học</option>
-                        <option value="">HTML/CSS</option>
-                        <option value="">Kinh tế chính trị</option>
-                        <option value="">Hệ thống máy tính</option>
-                        <option value="">Toán cao cấp</option>
-                    </select>
-                </div>
-                <div class="box">
-                    <select name="" id="">
-                        <option value="" hidden>Thể loại</option>
-                        <option value="">HTML/CSS</option>
-                        <option value="">Kinh tế chính trị</option>
-                        <option value="">Hệ thống máy tính</option>
-                        <option value="">Toán cao cấp</option>
-                    </select>
-                </div>
-                <div class="box">
-                    <select name="" id="">
-                        <option value="" hidden>Năm học</option>
-                        <option value="">HTML/CSS</option>
-                        <option value="">Kinh tế chính trị</option>
-                        <option value="">Hệ thống máy tính</option>
-                        <option value="">Toán cao cấp</option>
-                    </select>
-                </div>
-            </div>
+            <a class="right" href="allfile.html">
+                <p class="viewmore">Xem tất cả</p>
+                <i data-lucide="arrow-right"></i>
+            </a>
         </div>
         <div class="wrap">
             <div class="arrow">
@@ -552,7 +365,15 @@
             <div class="wrap-inner">
                 <div class="item">
                     <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
+                        <img src="Pictures/KTCT.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/pdf.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
                     </div>
                     <div class="descript">
                         <p>KTCT - MacLenin - Chuong ...</p>
@@ -586,10 +407,18 @@
                 </div>
                 <div class="item">
                     <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
+                        <img src="Pictures/KNLVN.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/word.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
                     </div>
                     <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <p>Ki nang lam viec nhom...</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
@@ -620,10 +449,18 @@
                 </div>
                 <div class="item">
                     <div class="pic">
-                        <img src="Pictures/pdf.svg" alt="">
+                        <img src="Pictures/CNXH.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/pdf.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
                     </div>
                     <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <p>Chu nghia xa hoi...</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
@@ -654,10 +491,18 @@
                 </div>
                 <div class="item">
                     <div class="pic">
-                        <img src="Pictures/word.svg" alt="">
+                        <img src="Pictures/MacLenin.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/pdf.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
                     </div>
                     <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <p>Triet hoc MacLenin ...</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
@@ -686,12 +531,259 @@
                         </button>
                     </div>
                 </div>
+                
             </div>
             <div class="arrow">
                 <i data-lucide="arrow-right"></i>
             </div>
         </div>
     </div>
+    <div class="section-newUp">
+        <div class="title a">
+            <div class="left">
+                <i data-lucide="file-badge"></i>
+                <p>Tài liệu đánh giá cao</p>
+            </div>
+            <a class="right" href="allfile.html">
+                <p class="viewmore">Xem tất cả</p>
+                <i data-lucide="arrow-right"></i>
+            </a>
+        </div>
+        <div class="wrap">
+            <div class="arrow">
+                <i data-lucide="arrow-left"></i>
+            </div>
+            <div class="wrap-inner">
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/KTCT.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/pdf.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
+                    </div>
+                    <div class="descript">
+                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/KNLVN.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/word.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
+                    </div>
+                    <div class="descript">
+                        <p>Ki nang lam viec nhom...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/CNXH.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/pdf.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
+                    </div>
+                    <div class="descript">
+                        <p>Chu nghia xa hoi...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="Pictures/MacLenin.svg" alt="">
+                        <div class="format">
+                            <img src="Pictures/pdf.svg" alt="">
+                        </div>
+                        <div class="endow">
+                            <p>Tặng kèm 300 câu trắc nghiệm</p>
+                            <p>500+ lượt tải</p>
+                            <p>Cam kết 8+</p>
+                        </div>
+                    </div>
+                    <div class="descript">
+                        <p>Triet hoc MacLenin ...</p>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="book-open"></i>
+                                <p id="subject">KTCT</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="calendar-days"></i>
+                                <p id="years">2025-2026</p>
+                            </div>
+                        </div>
+                        <div class="frame">
+                            <div class="item">
+                                <i data-lucide="file-text"></i>
+                                <p id="subject">Slide - Bài giảng</p>
+                            </div>
+                            <div class="item">
+                                <i data-lucide="university"></i>
+                                <p id="years">IUH</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-btn">
+                        <button class="view">Xem chi tiết</button>
+                        <button class="bookmark">
+                            <i data-lucide="bookmark" ></i>
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="arrow">
+                <i data-lucide="arrow-right"></i>
+            </div>
+        </div>
+    </div>
+    <!-- overlay of description file -->
+     <section class="prism-document-section" id="overlaydescript">
+        <div class="container">
+            <div class="main-content">
+                <div class="header-area">
+                    <div>
+                    <h1 class="title">Giáo trình Kinh tế chính trị Mác - Lênin</h1>
+                    </div>
+                </div>
+                <div class="preview" id="preview">
+                    <iframe id="pdf-viewer" width="100%" height="350px"></iframe>
+                </div>
+                <h3 class="section-title">Giới thiệu tổng quan</h3>
+                <p id="tongQuan" style="line-height: 1.6; color: #475569; margin-bottom: 0;">
+                    Tài liệu này được biên soạn bám sát chương trình giảng dạy tại các trường Đại học theo khung chuẩn năm 2021. 
+                    Đặc biệt phù hợp cho sinh viên khối ngành kinh tế và kỹ thuật đang theo học tại IUH. 
+                    Nội dung tập trung vào học thuyết giá trị thặng dư, tái sản xuất tư bản xã hội và các vấn đề kinh tế thời kỳ quá độ.
+                </p>
+                <h3 class="section-title">Thông số kỹ thuật</h3>
+                <div class="info-table">
+                    <div class="info-item"><b>Tác giả</b><span id="tacGia">TS. Nguyễn Văn A</span></div>
+                    <div class="info-item"><b>Số trang</b><span id="soTrang">250 trang</span></div>
+                    <div class="info-item"><b>Lần cuối cập nhật</b><span id="capNhat">12/04/2026</span></div>
+                </div>
+                <h3 class="section-title">Phản hồi từ người học</h3>
+                <textarea class="comment-box" placeholder="Chia sẻ cảm nghĩ của bạn về tài liệu này..."></textarea>
+                <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                    <button class="btn btn-primary" style="width: auto; padding: 10px 25px; margin: 0;">Gửi đánh giá</button>
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="card">
+                    <div style="font-size: 20px; color: var(--warning); font-weight: bold;">⭐ 4.8 <span style="font-size: 14px; color: var(--secondary); font-weight: normal;">(150 nhận xét)</span></div>
+                    <div class="stats-row">
+                    <span> 12.5k lượt xem</span>
+                    <span> 2.2k tải về</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 style="margin-top: 0; font-size: 18px;">Sở hữu tài liệu</h3>
+                    <div class="">20.000 VNĐ</div>
+                    <button class="btn btn-primary" id="download">TẢI XUỐNG NGAY</button>
+                    <button class="btn" style="background: #fdf2f2; color: #dc2626;">Báo cáo vi phạm</button>
+                </div>
+                <div class="card">
+                    <h3 style="margin-top: 0; font-size: 16px;">Tài liệu cùng chuyên mục</h3>
+                    <ul class="related-list">
+                    <li><a href="#">Đề thi mẫu Kinh tế chính trị 2025</a></li>
+                    <li><a href="#">Tóm tắt sơ đồ tư duy 7 chương</a></li>
+                    <li><a href="#">Bài tập giá trị thặng dư có lời giải</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
     <footer>
         <div class="footer">
             <div class="top">
@@ -718,19 +810,21 @@
                     <div class="title">Mạng xã hội</div>
                     <div class="social">
                         <div class="box">
-                            <i data-lucide="facebook"></i>
+                            <img src="Pictures/instagram.jpg" alt="">
                         </div>
                         <div class="box">
-                            <i data-lucide="youtube"></i>
+                            <img src="Pictures/facebook.jpg" alt="">
                         </div>
                         <div class="box">
-                            <i data-lucide="instagram"></i>
+                            <img src="Pictures/youtube.jpg" alt="">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="index.js"></script>
 </body>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ</title>
+    <link rel="stylesheet" href="contact.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="container">
+        <div class="logo"><img src="Pictures/Logo.svg" alt=""></div>
+        <nav>
+            <a href="index.html">Trang chủ</a>
+            <a href="">Giới thiệu</a>
+            <a href=""  class="active">Liện hệ</a>
+        </nav>
+        <div class="notification">
+            <div class="search">
+                <input type="text" placeholder="Tìm kiếm ...">
+                <div class="btn-search">
+                    <i data-lucide="search"></i>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="login" id="dropdownBtn">
+                    <img src="Pictures/pet_cloud_uside 1.svg" alt="">
+                </div>
+                <ul class="dropdown-content" id="dropdownMenu">
+                    <li><a href="#">Thành viên</a></li>
+                    <li><a href="#">Admin</a></li>
+                </ul>
+            </div>
+            <div class="notifi">
+                <i data-lucide="bell-ring"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="wrap-container">
+        <img src="./Ellipse 1.svg" alt="" class="elip ellipse-bl">
+        <img src="./Ellipse 2.svg" alt="" class="elip ellipse-center">
+        <img src="./Ellipse 3.svg" alt="" class="elip ellipse-tr">
+        
+        <main class="main-container">
+    
+            <div id="form-view">
+                <div class="page-header">
+                    <div class="page-title">
+                        <span class="dash">-----</span>
+                        Liên hệ với chúng tôi
+                        <span class="dash">-----</span>
+                    </div>
+                    <div class="page-desc">Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy để lại thông tin và chúng tôi sẽ phản hồi sớm nhất có thể.</div>
+                </div>
+
+                <form class="form-layout" id="contactForm">
+                    <div class="form-row">
+                        <div class="input-box">
+                            <label class="label-text">Họ và tên:</label>
+                            <input type="text" class="input-control" placeholder="Nhập họ và tên" required>
+                        </div>
+                        <div class="input-box">
+                            <label class="label-text">Email</label>
+                            <input type="email" class="input-control" placeholder="Nhập địa chỉ email" required>
+                        </div>
+                    </div>
+    
+                    <div class="input-box">
+                        <label class="label-text">Chủ đề:</label>
+                        <div class="select-group">
+                            <select class="input-control select-control" required>
+                                <option value="" disabled selected>Chọn chủ đề</option>
+                                <option value="1">Hỗ trợ kỹ thuật</option>
+                                <option value="2">Yêu cầu báo giá</option>
+                                <option value="3">Hợp tác kinh doanh</option>
+                                <option value="4">Góp ý dịch vụ</option>
+                            </select>
+                        </div>
+                    </div>
+    
+                    <div class="input-box">
+                        <label class="label-text">Nội dung:</label>
+                        <textarea class="input-control" placeholder="Nhập nội dung cần hỗ trợ..." required></textarea>
+                    </div>
+    
+                    <div class="submit-wrap">
+                        <button type="submit" class="btn-submit">Gửi tin nhắn</button>
+                    </div>
+                </form>
+            </div>
+    
+            <div id="success-view">
+                <div class="success-card">
+                    <div class="success-icon">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="success-h2">Gửi tin nhắn thành công!</div>
+                    <div class="success-p">
+                        Cảm ơn bạn đã liên hệ với <strong>DocZone</strong>. <br> 
+                        Chúng tôi đã nhận được thông tin và sẽ phản hồi sớm nhất trong vòng 24 giờ tới.
+                    </div>
+                    <button class="btn-submit" onclick="location.reload();">Quay lại trang chủ</button>
+                </div>
+            </div>
+    
+        </main>
+    </div>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="contact.js"></script>
+</body>
+</html>
