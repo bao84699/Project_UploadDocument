@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+Thambi+2:wght@400..800&family=Diplomata&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Kablammo&family=Michroma&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="notification">
+        <i data-lucide="circle-check"></i>
+        <div class="wrap-notifi">
+            <div class="thong-bao" id="thongBao">Thực hiện thành công</div>
+            <div class="trang-thai" id="trangThai">Đang chuyển hướng ...</div>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="left">
+            <img src="Pictures/Chicaleda.svg" alt="Banner">
+        </div>
+        <div class="right">
+            <div class="dieu-huong">
+                <div class="dang-nhap active-log">Đăng nhập</div>
+                <div class="dang-ki">Đăng ký</div>
+            </div>
+            <div class="form active" id="dang-nhap-form">
+                <form class="dang-nhap-form">
+                    <div class="input">
+                        <input type="text" id="email-login" placeholder="Email" required>
+                        <div class="loi" id="loi-email">Vui lòng nhập đúng định dạng Email !</div>
+                    </div>
+                    <div class="input">
+                        <input type="password" id="password-login" placeholder="Mật khẩu" required>
+                        <div class="loi" id="loi-matkhau">Vui lòng nhập mật khẩu</div>
+                    </div>
+                    <button class="submit" id="btn-login">Tiếp tục</button>
+                </form>
+                <div class="other-login">
+                    <div class="line"></div>
+                    <span>hoặc đăng nhập bằng</span>
+                    <div class="line"></div>
+                </div>
+                <div class="social-account">
+                    <div class="circle" id="google">
+                        <img src="Pictures/facebook.jpg" alt="Google">
+                    </div>
+                    <div class="circle" id="facebook">
+                        <img src="Pictures/instagram.jpg" alt="Facebook">
+                    </div>
+                </div>
+            </div>
+            <div class="form" id="dang-ki-form">
+                <form class="dang-nhap-form">
+                    <div class="input">
+                        <input type="text" id="name" placeholder="Họ và tên" required>
+                        <div class="loi" id="loi-name">Vui lòng điền họ tên !</div>
+                    </div>
+                    <div class="input">
+                        <input type="text" id="email-register" placeholder="Email" required>
+                        <div class="loi" id="loi-email-register">Vui lòng nhập đúng định dạng Email !</div>
+                    </div>
+                    <div class="input">
+                        <input type="password" id="password-register" placeholder="Mật khẩu" required>
+                        <div class="loi" id="loi-matkhau-register">Vui lòng nhập mật khẩu !</div>
+                    </div>
+                    <button class="submit" id="btn-register">Tạo tài khoản</button>
+                </form>
+                <div class="other-login">
+                    <div class="line"></div>
+                    <span>hoặc đăng kí bằng</span>
+                    <div class="line"></div>
+                </div>
+                <div class="social-account">
+                    <div class="circle" id="google">
+                        <img src="Pictures/facebook.jpg" alt="Google">
+                    </div>
+                    <div class="circle" id="facebook">
+                        <img src="Pictures/instagram.jpg" alt="Facebook">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="login.js"></script>
+</body>
+</html>

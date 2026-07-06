@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <title>Dashboard - DocZone</title>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo" onclick="location.href='index.html'">
+                <img src="Pictures/Logo.svg" alt="DocZone">
+            </div>
+            <button class="btn-write-blog">
+                <i data-lucide="edit"></i>
+                Viết Blog
+            </button>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="active" id="menu-documents">
+                        <i data-lucide="file-text"></i>
+                        Quản lí tài liệu
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="menu-favorites">
+                        <i data-lucide="heart"></i>
+                        Yêu thích
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="menu-history">
+                        <i data-lucide="download"></i>
+                        Lịch sử tải về
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="menu-stats">
+                        <i data-lucide="bar-chart-2"></i>
+                        Thống kê
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <div class="dashboard-header">
+                <div class="header-search">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Tìm kiếm tài liệu của bạn..." id="headerSearch">
+                </div>
+                <div class="header-actions">
+                    <button class="header-notif" id="headerNotif">
+                        <i data-lucide="bell"></i>
+                        <span class="notif-badge"></span>
+                    </button>
+                    <button class="header-user" id="headerUser">
+                        <div class="header-user-avatar" id="userAvatarInitial">B</div>
+                        <div class="header-user-info">
+                            <span class="header-user-name" id="dashUserName">Admin</span>
+                            <span class="header-user-email" id="dashUserEmail">bao.nguyen@gmail.com</span>
+                        </div>
+                        <div class="header-user-chevron">
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="content-area">
+                <div class="content-header">
+                    <div class="content-title">
+                        <h1>Quản lí tài liệu</h1>
+                    </div>
+                    <button class="btn-upload" id="btnUpload">
+                        <i data-lucide="plus"></i>
+                        Tải lên tài liệu
+                    </button>
+                </div>
+                <div class="filter-bar">
+                    <div class="filter-search">
+                        <i data-lucide="search"></i>
+                        <input type="text" placeholder="Tìm kiếm tài liệu..." id="filterSearch">
+                    </div>
+                    <select class="filter-select" id="filterFormat">
+                        <option value="">Tất cả định dạng</option>
+                        <option value="pdf">PDF</option>
+                        <option value="docx">DOCX</option>
+                        <option value="pptx">PPTX</option>
+                        <option value="xlsx">XLSX</option>
+                    </select>
+                    <select class="filter-select" id="filterSubject">
+                        <option value="">Tất cả môn học</option>
+                    </select>
+                    <select class="filter-select" id="filterSort">
+                        <option value="newest">Ngày tải mới nhất</option>
+                        <option value="oldest">Ngày tải cũ nhất</option>
+                        <option value="name-asc">Tên A-Z</option>
+                        <option value="name-desc">Tên Z-A</option>
+                    </select>
+                </div>
+                <div class="batch-actions" id="batchActions">
+                    <span id="selectedCount">0 tài liệu được chọn</span>
+                    <button class="btn-batch-delete" id="btnBatchDelete">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        Xóa đã chọn
+                    </button>
+                </div>
+                <div class="doc-table-wrapper">
+                    <table class="doc-table">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-cell">
+                                    <input type="checkbox" id="selectAll">
+                                </th>
+                                <th>Tên tài liệu</th>
+                                <th>Môn học</th>
+                                <th>Định dạng</th>
+                                <th>Lượt xem</th>
+                                <th>Lượt tải</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="docTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="empty-state" id="emptyState">
+                    <i data-lucide="folder-open"></i>
+                    <h3>Chưa có tài liệu nào</h3>
+                    <p>Hãy tải lên tài liệu đầu tiên của bạn</p>
+                </div>
+                <div class="pagination" id="pagination">
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="context-menu" id="contextMenu">
+        <button class="context-menu-item" data-action="view">
+            <i data-lucide="eye"></i>
+            Xem chi tiết
+        </button>
+        <button class="context-menu-item" data-action="edit">
+            <i data-lucide="edit-2"></i>
+            Chỉnh sửa
+        </button>
+        <button class="context-menu-item" data-action="move">
+            <i data-lucide="move"></i>
+            Di chuyển
+        </button>
+        <button class="context-menu-item" data-action="copy-link">
+            <i data-lucide="link"></i>
+            Sao chép liên kết
+        </button>
+        <div class="context-menu-divider"></div>
+        <button class="context-menu-item danger" data-action="delete">
+            <i data-lucide="trash-2"></i>
+            Xóa tài liệu
+        </button>
+    </div>
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Chỉnh sửa tài liệu</h2>
+                <button class="modal-close" id="editModalClose">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editName">Tên tài liệu</label>
+                    <input type="text" id="editName" placeholder="Nhập tên tài liệu">
+                </div>
+                <div class="form-group">
+                    <label for="editSubject">Môn học</label>
+                    <input type="text" id="editSubject" placeholder="Nhập tên môn học">
+                </div>
+                <div class="form-group">
+                    <label for="editSchool">Trường</label>
+                    <input type="text" id="editSchool" placeholder="Mã trường">
+                </div>
+                <div class="form-group">
+                    <label for="editCategory">Phân loại</label>
+                    <select id="editCategory">
+                        <option value="">-- Chọn phân loại --</option>
+                        <option value="Giáo trình/Slide">Giáo trình/Slide</option>
+                        <option value="Bài tập">Bài tập</option>
+                        <option value="Đồ án">Đồ án</option>
+                        <option value="Đề thi">Đề thi</option>
+                        <option value="Tài liệu tham khảo">Tài liệu tham khảo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editYears">Năm học</label>
+                    <input type="text" id="editYears" placeholder="VD: 2025-2026">
+                </div>
+                <div class="form-group">
+                    <label for="editDescription">Mô tả</label>
+                    <textarea id="editDescription" placeholder="Nhập mô tả tài liệu"></textarea>
+                </div>
+                <input type="hidden" id="editDocId">
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="editCancelBtn">Hủy</button>
+                    <button type="submit" class="btn-save" id="editSaveBtn">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-overlay" id="deleteModal">
+        <div class="delete-modal-content">
+            <div class="delete-icon">
+                <i data-lucide="trash-2"></i>
+            </div>
+            <h3>Xác nhận xóa tài liệu</h3>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="deleteCancelBtn">Hủy</button>
+                <button type="button" class="btn-delete-confirm" id="deleteConfirmBtn">Xóa tài liệu</button>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast">
+        <i data-lucide="check-circle"></i>
+        <span id="toastMessage">Thành công!</span>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

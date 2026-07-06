@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="write-blog.css">
+    <title>Viết bài mới - DocZone</title>
+</head>
+<body>
+    <div class="editor-workspace-container">
+        <div class="action-bar">
+            <div class="action-bar-left">
+                <button class="btn-back" onclick="location.href='dashboard.html'">
+                    <i data-lucide="chevron-left"></i>
+                    Quay lại
+                </button>
+            </div>
+            <div class="action-bar-right">
+                <div class="btn-export-dropdown">
+                    <button class="btn-export" id="btnExport">
+                        <i data-lucide="upload"></i>
+                        Xuất
+                        <i data-lucide="chevron-down" class="icon-chevron"></i>
+                    </button>
+                    <div class="export-options" id="exportMenu">
+                        <button class="export-option" data-format="publish">Đăng bài viết</button>
+                        <button class="export-option" data-format="draft">Lưu nháp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="editor-main-layout">
+            <div class="editor-column">
+                <div class="editor-toolbar">
+                    <button type="button" class="toolbar-btn" data-command="undo">
+                        <i data-lucide="undo-2"></i>
+                    </button>
+                    <button type="button" class="toolbar-btn" data-command="redo">
+                        <i data-lucide="redo-2"></i>
+                    </button>
+                    <div class="toolbar-divider"></div>
+                    <div class="toolbar-select-wrapper"></div>
+                    <div class="toolbar-select-wrapper">
+                        <select id="fontName" class="toolbar-select">
+                            <option value="Inter">Inter</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Courier New">Courier</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-select-wrapper">
+                        <select id="fontSize" class="toolbar-select" title="Cỡ chữ">
+                            <option value="3">14px</option>
+                            <option value="4" selected>16px</option>
+                            <option value="5">18px</option>
+                            <option value="6">24px</option>
+                            <option value="7">32px</option>
+                        </select>
+                    </div>
+                    <button type="button" class="toolbar-btn" data-command="bold">
+                        <i data-lucide="bold"></i>
+                    </button>
+                    <button type="button" class="toolbar-btn" data-command="italic">
+                        <i data-lucide="italic"></i>
+                    </button>
+                    <button type="button" class="toolbar-btn" data-command="underline">
+                        <i data-lucide="underline"></i>
+                    </button>
+                    <button type="button" class="toolbar-btn" data-command="strikeThrough">
+                        <i data-lucide="strikethrough"></i>
+                    </button>
+                    <div class="toolbar-divider"></div>
+                    <div class="toolbar-color-picker">
+                        <button type="button" class="toolbar-btn color-btn" id="btnTextColor" title="Màu chữ">
+                            <i data-lucide="baseline"></i>
+                            <span class="color-indicator text-color-ind"></span>
+                        </button>
+                        <input type="color" id="foreColor" class="color-input" value="#1a1a1a">
+                    </div>
+                    <div class="toolbar-color-picker">
+                        <button type="button" class="toolbar-btn color-btn" id="btnBgColor">
+                            <i data-lucide="highlighter"></i>
+                            <span class="color-indicator bg-color-ind"></span>
+                        </button>
+                        <input type="color" id="hiliteColor" class="color-input" value="#ffffff">
+                    </div>
+                    <div class="toolbar-divider"></div>
+                    <button type="button" class="toolbar-btn" data-command="justifyLeft">
+                        <i data-lucide="align-left"></i>
+                    </button>
+                    <button type="button" class="toolbar-btn" data-command="justifyCenter">
+                        <i data-lucide="align-center"></i>
+                    </button>
+                    <button type="button" class="toolbar-btn" data-command="justifyRight">
+                        <i data-lucide="align-right"></i>
+                    </button>
+                    <button type="button" class="toolbar-btn" data-command="justifyFull">
+                        <i data-lucide="align-justify"></i>
+                    </button>
+                </div>
+                <div class="editor-paper" id="editorPaper">
+                    <div class="editor-main-title" contenteditable="true" id="editorTitle" placeholder="Tiêu đề bài viết của bạn"></div>
+                    <div class="editor-canvas" contenteditable="true" id="editorBody" placeholder="Nhập nội dung bài viết của bạn tại đây..."></div>
+                </div>
+            </div>
+            <div class="config-sidebar" id="sidebar">
+                <div class="tab-content active" id="tab-document">
+                    <div class="config-group">
+                        <div class="config-field">
+                            <label for="inputTitle">Tiêu đề</label>
+                            <input type="text" id="inputTitle" value="Bài viết mới" placeholder="Nhập tiêu đề...">
+                        </div>
+                        <div class="config-field">
+                            <label for="inputDesc">Mô tả</label>
+                            <textarea id="inputDesc" placeholder="Mô tả ngắn về bài viết..."></textarea>
+                        </div>
+                        <div class="config-field">
+                            <label for="inputCover">Ảnh minh họa</label>
+                            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                                <input type="text" id="inputCover" placeholder="Dán link ảnh hoặc chọn tệp..." style="flex: 1; margin: 0;">
+                                <button type="button" id="btnSelectCover" style="padding: 0 12px; background: #FF8400; color: white; border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;">
+                                    <i data-lucide="image" style="width: 18px; height: 18px;"></i>
+                                </button>
+                            </div>
+                            <input type="file" id="fileCover" accept="image/*" style="display: none;">
+                            <div id="coverPreview" style="display: none; border-radius: 10px; overflow: hidden; border: 1.5px dashed #E5E7EB; aspect-ratio: 16/9; background: #F9FAFB; position: relative;">
+                                <img src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                                <button type="button" id="btnRemoveCover" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s;">
+                                    <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="write-blog.js"></script>
+</body>
+</html>

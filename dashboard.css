@@ -1,0 +1,1281 @@
+
+:root {
+  /* Brand Colors */
+  --color-primary:        #FF8400;
+  --color-primary-hover:  #FF9A2E;
+  --color-accent:         #FDBA24;
+  --color-light-orange:   #FFF5EB;
+  --color-peach:          #FFEDD5;
+  --color-blue-tint:      #83BDFF;
+  --color-danger:         #dc2626;
+  --color-danger-dark:    #b91c1c;
+  --color-success:        #10B981;
+
+  /* Neutral Palette */
+  --color-body-bg:        #F8F9FA;
+  --color-white:          #ffffff;
+  --color-text-dark:      #1a1a1a;
+  --color-text-heading:   #1F2937;
+  --color-text-body:      #374151;
+  --color-text-muted:     #6B7280;
+  --color-text-light:     #9CA3AF;
+  --color-border:         #E5E7EB;
+  --color-border-light:   #F3F4F6;
+  --color-bg-subtle:      #F3F4F6;
+  --color-bg-table-head:  #FAFBFC;
+  --color-bg-hover-row:   #FFFBF5;
+  --color-bg-hover-soft:  #F9FAFB;
+
+  /* Doc-Icon Colors */
+  --color-pdf:            #E53E3E;
+  --color-docx:           #2B6CB0;
+  --color-pptx:           #DD6B20;
+  --color-xlsx:           #38A169;
+  --color-default-icon:   #718096;
+
+  /* Subject Badge Colors */
+  --color-badge-prog-bg:  #EBF5FF;
+  --color-badge-prog:     #2B6CB0;
+  --color-badge-phil-bg:  #F5F0FF;
+  --color-badge-phil:     #7C3AED;
+  --color-badge-econ-bg:  #F0FFF4;
+  --color-badge-econ:     #38A169;
+  --color-badge-stat-bg:  #FFF0F5;
+  --color-badge-stat:     #D53F8C;
+
+  /* Typography */
+  --font-family:          'Inter', sans-serif;
+
+  /* Spacing */
+  --sidebar-width:        260px;
+
+  /* Shadows */
+  --shadow-sm:            0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md:            0 4px 15px rgba(255, 132, 0, 0.3);
+  --shadow-lg:            0 10px 40px rgba(0, 0, 0, 0.12);
+  --shadow-modal:         0 25px 60px rgba(0, 0, 0, 0.15);
+  --shadow-toast-success: 0 10px 30px rgba(16, 185, 129, 0.3);
+  --shadow-toast-error:   0 10px 30px rgba(220, 38, 38, 0.3);
+
+  /* Transitions */
+  --transition-fast:      0.15s ease;
+  --transition-base:      0.2s ease;
+  --transition-smooth:    0.3s ease;
+  --transition-spring:    0.4s ease;
+}
+
+
+/* ---------------------------------------------------------
+   2. Global Reset & Base
+   --------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-body-bg);
+  font-family: var(--font-family);
+  color: var(--color-text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+
+/* ---------------------------------------------------------
+   3. Dashboard Layout
+   --------------------------------------------------------- */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+
+/* ---------------------------------------------------------
+   4. Sidebar
+   --------------------------------------------------------- */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--color-white);
+  border-right: 1px solid var(--color-border);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+  transition: transform var(--transition-smooth), width var(--transition-smooth);
+  overflow-y: auto;
+}
+
+/* --- Sidebar Logo --- */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  cursor: pointer;
+}
+
+.sidebar-logo img {
+  height: 40px;
+}
+
+/* --- Write Blog / Primary CTA Button --- */
+.btn-write-blog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  color: var(--color-white);
+  border: none;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  margin-bottom: 28px;
+  transition: all var(--transition-smooth);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-family);
+}
+
+.btn-write-blog:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 132, 0, 0.4);
+}
+
+.btn-write-blog:active {
+  transform: translateY(0);
+}
+
+.btn-write-blog svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* --- Sidebar Menu --- */
+.sidebar-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-radius: 100px;
+  text-decoration: none;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.sidebar-menu li a:hover {
+  background: var(--color-light-orange);
+  color: var(--color-primary);
+}
+
+.sidebar-menu li a.active {
+  background: linear-gradient(135deg, var(--color-light-orange), var(--color-peach));
+  color: var(--color-primary);
+  font-weight: 600;
+  border: 1.5px solid var(--color-primary);
+}
+
+.sidebar-menu li a svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+
+/* ---------------------------------------------------------
+   5. Main Content
+   --------------------------------------------------------- */
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  padding: 0;
+  min-height: 100vh;
+}
+
+
+/* ---------------------------------------------------------
+   6. Dashboard Header
+   --------------------------------------------------------- */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* --- Header Search --- */
+.header-search {
+  display: flex;
+  align-items: center;
+  background: var(--color-bg-subtle);
+  border-radius: 100px;
+  padding: 10px 16px;
+  width: 420px;
+  gap: 10px;
+  border: 1.5px solid transparent;
+  transition: border var(--transition-smooth);
+}
+
+.header-search:focus-within {
+  border-color: var(--color-primary);
+}
+
+.header-search input {
+  border: none;
+  background: transparent;
+  flex: 1;
+  font-size: 14px;
+  color: var(--color-text-body);
+  outline: none;
+  font-family: var(--font-family);
+}
+
+.header-search input::placeholder {
+  color: var(--color-text-light);
+}
+
+.header-search svg {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-light);
+  flex-shrink: 0;
+}
+
+/* --- Header Actions --- */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* --- Notification Bell --- */
+.header-notif {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-subtle);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-base);
+}
+
+.header-notif:hover {
+  background: var(--color-peach);
+}
+
+.header-notif svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-muted);
+}
+
+.notif-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  border: 2px solid var(--color-white);
+}
+
+/* --- Header User --- */
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 6px 16px;
+  border-radius: 100px;
+  transition: background var(--transition-base);
+  border: none;
+  background: transparent;
+}
+
+.header-user:hover {
+  background: var(--color-bg-hover-soft);
+}
+
+.header-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.header-user-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.header-user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+
+.header-user-email {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.header-user-chevron svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-light);
+  transition: transform var(--transition-base);
+}
+
+
+/* ---------------------------------------------------------
+   7. Content Area
+   --------------------------------------------------------- */
+.content-area {
+  padding: 32px;
+}
+
+
+/* ---------------------------------------------------------
+   8. Content Header
+   --------------------------------------------------------- */
+.content-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.content-title h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text-heading);
+  margin-bottom: 6px;
+}
+
+.content-title p {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* --- Upload Button --- */
+.btn-upload {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: var(--font-family);
+}
+
+.btn-upload:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 132, 0, 0.3);
+}
+
+.btn-upload:active {
+  transform: translateY(0);
+}
+
+.btn-upload svg {
+  width: 18px;
+  height: 18px;
+}
+
+
+/* ---------------------------------------------------------
+   9. Filter Bar
+   --------------------------------------------------------- */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+/* --- Filter Search Input --- */
+.filter-search {
+  display: flex;
+  align-items: center;
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: 100px;
+  padding: 9px 14px;
+  width: 220px;
+  gap: 8px;
+  transition: border var(--transition-smooth);
+}
+
+.filter-search:focus-within {
+  border-color: var(--color-primary);
+}
+
+.filter-search input {
+  border: none;
+  background: transparent;
+  flex: 1;
+  font-size: 13px;
+  outline: none;
+  color: var(--color-text-body);
+  font-family: var(--font-family);
+}
+
+.filter-search input::placeholder {
+  color: var(--color-text-light);
+}
+
+.filter-search svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-light);
+}
+
+/* --- Filter Select Dropdown --- */
+.filter-select {
+  appearance: none;
+  padding: 9px 36px 9px 16px;
+  background: var(--color-white)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")
+    no-repeat right 12px center;
+  border: 1.5px solid var(--color-border);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--color-text-body);
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: border var(--transition-smooth);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.filter-select:hover {
+  border-color: #D1D5DB;
+}
+
+
+/* ---------------------------------------------------------
+   10. Batch Actions Bar
+   --------------------------------------------------------- */
+.batch-actions {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--color-light-orange);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--color-peach);
+}
+
+.batch-actions.show {
+  display: flex;
+}
+
+.batch-actions span {
+  font-size: 14px;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.btn-batch-delete {
+  padding: 8px 16px;
+  background: var(--color-danger);
+  color: var(--color-white);
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-base);
+  font-family: var(--font-family);
+}
+
+.btn-batch-delete:hover {
+  background: var(--color-danger-dark);
+}
+
+
+/* ---------------------------------------------------------
+   11. Document Table
+   --------------------------------------------------------- */
+.doc-table-wrapper {
+  background: var(--color-white);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* --- Table Head --- */
+.doc-table thead {
+  background: var(--color-bg-table-head);
+}
+
+.doc-table thead th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+/* --- Table Body --- */
+.doc-table tbody tr {
+  border-bottom: 1px solid var(--color-border-light);
+  transition: background var(--transition-fast);
+}
+
+.doc-table tbody tr:hover {
+  background: var(--color-bg-hover-row);
+}
+
+.doc-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.doc-table tbody tr.selected {
+  background: var(--color-light-orange);
+}
+
+.doc-table tbody td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--color-text-body);
+  vertical-align: middle;
+}
+
+/* --- Checkbox Cell --- */
+.doc-table .checkbox-cell {
+  width: 40px;
+  text-align: center;
+}
+
+.doc-table input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* --- Document Name Cell --- */
+.doc-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.doc-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-white);
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.doc-icon.pdf   { background: var(--color-pdf); }
+.doc-icon.docx  { background: var(--color-docx); }
+.doc-icon.pptx  { background: var(--color-pptx); }
+.doc-icon.xlsx  { background: var(--color-xlsx); }
+.doc-icon.default { background: var(--color-default-icon); }
+
+.doc-name-text {
+  font-weight: 500;
+  color: var(--color-text-heading);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+/* --- Subject Badges --- */
+.subject-badge {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.subject-badge.toan-tin   { background: var(--color-light-orange); color: var(--color-primary); }
+.subject-badge.lap-trinh  { background: var(--color-badge-prog-bg); color: var(--color-badge-prog); }
+.subject-badge.triet-hoc  { background: var(--color-badge-phil-bg); color: var(--color-badge-phil); }
+.subject-badge.kinh-te    { background: var(--color-badge-econ-bg); color: var(--color-badge-econ); }
+.subject-badge.thong-ke   { background: var(--color-badge-stat-bg); color: var(--color-badge-stat); }
+.subject-badge.default    { background: var(--color-bg-subtle); color: var(--color-text-muted); }
+
+/* --- Inline Text Styles --- */
+.format-text {
+  font-weight: 500;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.views-text,
+.downloads-text {
+  font-weight: 500;
+  color: var(--color-text-body);
+}
+
+.date-text {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------
+   12. Action Buttons in Table
+   --------------------------------------------------------- */
+.action-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-btn-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  color: var(--color-text-light);
+}
+
+.action-btn-icon:hover {
+  background: var(--color-bg-subtle);
+  color: var(--color-text-body);
+}
+
+.action-btn-icon.edit:hover {
+  background: var(--color-badge-prog-bg);
+  color: var(--color-docx);
+}
+
+.action-btn-icon.delete:hover {
+  background: #FEF2F2;
+  color: var(--color-danger);
+}
+
+.action-btn-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+
+/* ---------------------------------------------------------
+   13. Context Menu
+   --------------------------------------------------------- */
+.context-menu {
+  position: absolute;
+  background: var(--color-white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 6px;
+  min-width: 180px;
+  z-index: 1000;
+  display: none;
+  animation: contextFadeIn var(--transition-fast);
+}
+
+.context-menu.show {
+  display: block;
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--color-text-body);
+  transition: all var(--transition-fast);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-family);
+}
+
+.context-menu-item:hover {
+  background: var(--color-bg-hover-soft);
+}
+
+.context-menu-item svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-light);
+}
+
+.context-menu-item.danger {
+  color: var(--color-danger);
+}
+
+.context-menu-item.danger:hover {
+  background: #FEF2F2;
+}
+
+.context-menu-item.danger svg {
+  color: var(--color-danger);
+}
+
+.context-menu-divider {
+  height: 1px;
+  background: var(--color-border-light);
+  margin: 4px 0;
+}
+
+@keyframes contextFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* ---------------------------------------------------------
+   14. Pagination
+   --------------------------------------------------------- */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 24px;
+}
+
+.page-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border-radius: 50%;
+  font-size: 14px;
+  color: var(--color-text-body);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-family: var(--font-family);
+}
+
+.page-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-light-orange);
+}
+
+.page-btn.active {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+  font-weight: 600;
+}
+
+.page-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.page-dots {
+  padding: 0 4px;
+  color: var(--color-text-light);
+  font-size: 14px;
+}
+
+
+/* ---------------------------------------------------------
+   15. Edit Modal
+   --------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--color-white);
+  border-radius: 20px;
+  padding: 32px;
+  width: 520px;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-modal);
+  animation: modalSlideIn var(--transition-smooth);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --- Modal Header --- */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-heading);
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-bg-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.modal-close:hover {
+  background: var(--color-border);
+  transform: rotate(90deg);
+}
+
+.modal-close svg {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+}
+
+/* --- Form Groups --- */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-body);
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: var(--color-text-heading);
+  transition: border var(--transition-smooth);
+  outline: none;
+  background: var(--color-white);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--color-primary);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--color-text-light);
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* --- Modal Actions --- */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.btn-cancel {
+  padding: 10px 24px;
+  background: var(--color-bg-subtle);
+  color: var(--color-text-muted);
+  border: none;
+  border-radius: 100px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: 14px;
+  font-family: var(--font-family);
+}
+
+.btn-cancel:hover {
+  background: var(--color-border);
+}
+
+.btn-save {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  color: var(--color-white);
+  border: none;
+  border-radius: 100px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(255, 132, 0, 0.3);
+  font-family: var(--font-family);
+}
+
+.btn-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 132, 0, 0.4);
+}
+
+.btn-save:active {
+  transform: translateY(0);
+}
+
+
+/* ---------------------------------------------------------
+   16. Delete Confirmation Modal
+   --------------------------------------------------------- */
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.delete-modal-overlay.show {
+  display: flex;
+}
+
+.delete-modal-content {
+  background: var(--color-white);
+  border-radius: 20px;
+  padding: 10px;
+  width: 320px;
+  text-align: center;
+  box-shadow: var(--shadow-modal);
+  animation: modalSlideIn var(--transition-smooth);
+}
+
+.delete-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  background: #FEF2F2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-icon svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-danger);
+}
+
+.delete-modal-content h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-heading);
+  margin-bottom: 8px;
+}
+
+.delete-modal-content p {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+.btn-delete-confirm {
+  padding: 10px 24px;
+  background: var(--color-danger);
+  color: var(--color-white);
+  border: none;
+  border-radius: 100px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: 14px;
+  font-family: var(--font-family);
+}
+
+.btn-delete-confirm:hover {
+  background: var(--color-danger-dark);
+}
+
+
+/* ---------------------------------------------------------
+   17. Toast / Notification
+   --------------------------------------------------------- */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 14px 24px;
+  background: var(--color-success);
+  color: var(--color-white);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-toast-success);
+  transform: translateX(120%);
+  transition: transform var(--transition-spring);
+  font-family: var(--font-family);
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+.toast.error {
+  background: var(--color-danger);
+  box-shadow: var(--shadow-toast-error);
+}
+
+
+/* ---------------------------------------------------------
+   18. Empty State
+   --------------------------------------------------------- */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-state svg {
+  width: 64px;
+  height: 64px;
+  color: #D1D5DB;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 18px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+
+/* ---------------------------------------------------------
+   19. Loading Skeleton
+   --------------------------------------------------------- */
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  gap: 16px;
+}
+
+.skeleton-cell {
+  height: 16px;
+  background: linear-gradient(90deg, var(--color-bg-subtle) 25%, var(--color-border) 50%, var(--color-bg-subtle) 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   20. Custom Scrollbar
+   --------------------------------------------------------- */
+.main-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 3px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-light);
+}
+
+
+/* ---------------------------------------------------------
+   21. Responsive — Tablet (≤ 1024px)
+   --------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .main-content {
+    margin-left: 200px;
+  }
+
+  .header-search {
+    width: 280px;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   22. Responsive — Mobile (≤ 768px)
+   --------------------------------------------------------- */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    position: fixed;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .header-search {
+    width: 200px;
+  }
+
+  .content-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+  }
+
+  .doc-table-wrapper {
+    overflow-x: auto;
+  }
+}

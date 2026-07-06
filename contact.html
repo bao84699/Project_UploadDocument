@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liên hệ</title>
+    <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="contact.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kablammo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header class="container">
-        <div class="logo"><img src="Pictures/Logo.svg" alt=""></div>
+        <div class="logo" style="cursor: pointer;" onclick="location.href='index.html'"><img src="Pictures/Logo.svg" alt=""></div>
         <nav>
             <a href="index.html">Trang chủ</a>
-            <a href="">Giới thiệu</a>
-            <a href=""  class="active">Liện hệ</a>
+            <a href="#">Giới thiệu</a>
+            <a href="contact.html" class="active">Liên hệ</a>
         </nav>
         <div class="notification">
             <div class="search">
@@ -30,8 +31,8 @@
                     <img src="Pictures/pet_cloud_uside 1.svg" alt="">
                 </div>
                 <ul class="dropdown-content" id="dropdownMenu">
-                    <li><a href="#">Thành viên</a></li>
-                    <li><a href="#">Admin</a></li>
+                    <li><a href="#" id="user">Thành viên</a></li>
+                    <li><a href="#" id="admin">Admin</a></li>
                 </ul>
             </div>
             <div class="notifi">
@@ -103,13 +104,67 @@
                         Cảm ơn bạn đã liên hệ với <strong>DocZone</strong>. <br> 
                         Chúng tôi đã nhận được thông tin và sẽ phản hồi sớm nhất trong vòng 24 giờ tới.
                     </div>
-                    <button class="btn-submit" onclick="location.reload();">Quay lại trang chủ</button>
+                    <button class="btn-submit" onclick="window.location.href='index.html';">Quay lại trang chủ</button>
                 </div>
             </div>
     
         </main>
     </div>
+    <!-- Account Popup Panel -->
+    <div class="account-popup-overlay" id="accountPopupOverlay">
+        <div class="account-popup" id="accountPopup">
+            <button class="account-popup-close" id="accountPopupClose"><i data-lucide="x"></i></button>
+            <div class="account-popup-header">
+                <div class="account-popup-avatar"><img src="Pictures/pet_cloud_uside 1.svg" alt="avatar"></div>
+                <div class="account-popup-info">
+                    <div class="account-popup-name">Xin chào, <span id="accountPopupName">Bảo</span>! 👋</div>
+                    <div class="account-popup-email" id="accountPopupEmail">bao.nguyen@gmail.com</div>
+                </div>
+            </div>
+            <div class="account-popup-body">
+                <div class="account-accordion">
+                    <div class="account-accordion-header" data-section="favorites">
+                        <div class="account-accordion-icon" style="background: #FFF0F0;"><i data-lucide="heart" style="color: #FF6B6B;"></i></div>
+                        <span>Tài liệu yêu thích</span><i data-lucide="chevron-down" class="account-accordion-chevron"></i>
+                    </div>
+                    <div class="account-accordion-content" id="accordion-favorites">
+                        <div class="account-fav-item"><div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div><div class="account-fav-info"><div class="account-fav-name">Cấu trúc dữ liệu và giải thuật.pdf</div><div class="account-fav-meta">PDF • 2.4 MB</div></div><button class="account-fav-star active"><i data-lucide="star"></i></button></div>
+                        <div class="account-fav-item"><div class="account-fav-icon doc"><img src="Pictures/word.svg" alt="docx"></div><div class="account-fav-info"><div class="account-fav-name">Lập trình hướng đối tượng.docx</div><div class="account-fav-meta">DOCX • 1.7 MB</div></div><button class="account-fav-star active"><i data-lucide="star"></i></button></div>
+                        <div class="account-fav-item"><div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div><div class="account-fav-info"><div class="account-fav-name">Triết học Mác - Lênin.pdf</div><div class="account-fav-meta">PDF • 3.1 MB</div></div><button class="account-fav-star active"><i data-lucide="star"></i></button></div>
+                        <a href="#" class="account-view-all">Xem tất cả yêu thích <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="account-accordion">
+                    <div class="account-accordion-header" data-section="history">
+                        <div class="account-accordion-icon" style="background: #FFF5E6;"><i data-lucide="wallet" style="color: #FF8400;"></i></div>
+                        <span>Lịch sử giao dịch</span><i data-lucide="chevron-down" class="account-accordion-chevron"></i>
+                    </div>
+                    <div class="account-accordion-content" id="accordion-history">
+                        <div class="account-history-item"><div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div><div class="account-history-info"><div class="account-history-name">Full tài liệu OOP</div><div class="account-history-date">02/06/2024 14:32</div></div><div class="account-history-price">99.000đ</div><div class="account-history-status success">Thành công</div></div>
+                        <div class="account-history-item"><div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div><div class="account-history-info"><div class="account-history-name">Sách cấu trúc dữ liệu</div><div class="account-history-date">25/05/2024 09:15</div></div><div class="account-history-price">49.000đ</div><div class="account-history-status success">Thành công</div></div>
+                        <div class="account-history-item"><div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div><div class="account-history-info"><div class="account-history-name">Trí tuệ nhân tạo cơ bản</div><div class="account-history-date">18/05/2024 16:45</div></div><div class="account-history-price">79.000đ</div><div class="account-history-status success">Thành công</div></div>
+                        <a href="#" class="account-view-all">Xem tất cả giao dịch <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="account-accordion">
+                    <div class="account-accordion-header" data-section="settings">
+                        <div class="account-accordion-icon" style="background: #F0F0F0;"><i data-lucide="settings" style="color: #666;"></i></div>
+                        <span>Cài đặt tài khoản</span><i data-lucide="chevron-down" class="account-accordion-chevron"></i>
+                    </div>
+                    <div class="account-accordion-content" id="accordion-settings">
+                        <div class="account-setting-item"><div class="account-setting-left"><i data-lucide="user" class="account-setting-icon"></i><span>Thông tin tài khoản</span></div><i data-lucide="chevron-right" class="account-setting-arrow"></i></div>
+                        <div class="account-setting-item"><div class="account-setting-left"><i data-lucide="lock" class="account-setting-icon"></i><span>Đổi mật khẩu</span></div><i data-lucide="chevron-right" class="account-setting-arrow"></i></div>
+                        <div class="account-setting-item"><div class="account-setting-left"><i data-lucide="bell" class="account-setting-icon"></i><span>Thông báo</span></div><label class="account-toggle"><input type="checkbox" checked><span class="account-toggle-slider"></span></label></div>
+                        <div class="account-setting-item"><div class="account-setting-left"><i data-lucide="moon" class="account-setting-icon"></i><span>Chế độ tối</span></div><label class="account-toggle"><input type="checkbox"><span class="account-toggle-slider"></span></label></div>
+                        <div class="account-setting-item"><div class="account-setting-left"><i data-lucide="globe" class="account-setting-icon"></i><span>Ngôn ngữ</span></div><span class="account-setting-value">Tiếng Việt</span></div>
+                    </div>
+                </div>
+                <div class="account-logout-section"><button class="account-logout-btn" id="accountLogoutBtn"><i data-lucide="log-out"></i><span>Đăng xuất</span></button></div>
+            </div>
+        </div>
+    </div>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="common.js"></script>
     <script src="contact.js"></script>
 </body>
 </html>

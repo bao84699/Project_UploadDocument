@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="blog.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <title>Bài viết - DocZone</title>
+</head>
+<body>
+    <main class="blog-detail-container">
+        <div class="blog-back-nav">
+            <a href="index.html" class="btn-back">
+                <i data-lucide="arrow-left"></i> Quay lại Trang chủ
+            </a>
+        </div>
+        <article class="blog-article" id="blogArticle">
+            <div class="loading-state" id="loadingState">
+                <div class="spinner"></div>
+                <p>Đang tải bài viết...</p>
+            </div>
+            
+            <div class="blog-content-wrapper" id="blogContentWrapper" style="display: none;">
+                <div class="blog-header-meta">
+                    <h1 class="blog-title" id="blogTitle">Tiêu đề bài viết</h1>
+                    <div class="blog-meta-info">
+                        <span class="meta-item">
+                            <i data-lucide="calendar"></i>
+                            <span id="blogDate">--/--/----</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="blog-cover-wrapper">
+                    <img src="Pictures/KTCT.svg" alt="Cover Image" id="blogCover" class="blog-cover-image">
+                </div>
+
+                <div class="blog-lead" id="blogLead">
+                    Tóm tắt/mô tả ngắn về bài viết...
+                </div>
+
+                <div class="blog-body markdown-body" id="blogBody">
+                    Nội dung chi tiết của bài viết...
+                </div>
+            </div>
+        </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="blog.js"></script>
+</body>
+</html>

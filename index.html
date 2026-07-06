@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+Thambi+2:wght@400..800&family=Diplomata&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Kablammo&family=Michroma&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+Thambi+2:wght@400..800&family=Diplomata&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Michroma&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+Thambi+2:wght@400..800&family=Diplomata&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Michroma&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+Thambi+2:wght@400..800&family=Diplomata&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Michroma&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kablammo&display=swap" rel="stylesheet">
     <title>Ngân hàng tài liệu</title>
 </head>
 <body>
     <header class="container">
-        <div class="logo"><img src="Pictures/Logo.svg" alt=""></div>
+        <div class="logo" style="cursor: pointer;" onclick="location.href='index.html'"><img src="Pictures/Logo.svg" alt=""></div>
         <nav>
-            <a href="" class="active">Trang chủ</a>
-            <a href="">Giới thiệu</a>
-            <a href="contact.html">Liện hệ</a>
+            <a href="index.html" class="active">Trang chủ</a>
+            <a href="#">Giới thiệu</a>
+            <a href="contact.html">Liên hệ</a>
         </nav>
         <div class="notification">
             <div class="search">
@@ -32,10 +30,11 @@
                     <img src="Pictures/pet_cloud_uside 1.svg" alt="">
                 </div>
                 <ul class="dropdown-content" id="dropdownMenu">
-                    <li><a href="#" id="user">Thành viên</a></li>
+                    <li><a href="#" id="user">User</a></li>
                     <li><a href="#" id="admin">Admin</a></li>
                 </ul>
             </div>
+
             <div class="notifi">
                 <i data-lucide="bell-ring"></i>
             </div>
@@ -85,7 +84,7 @@
 
                 <div class="item2">
                     <div class="name">Tên file:</div>
-                    <input type="text" id="fileName" name="fileName" class="input full" placeholder="-- Tên tài liệu --">
+                    <input type="text" id="FileName" name="FileName" class="input full" placeholder="-- Tên tài liệu --">
                 </div>
 
                 <div class="wrap-item">
@@ -93,10 +92,10 @@
                         <div class="name">Môn học:</div>
                         <select id="subject" name="subject" class="input">
                             <option value="">-- Chọn môn học --</option>
-                            <option value="kinhtechinhtri">Kinh tế chính trị</option>
+                            <option value="KTCT">Kinh tế chính trị</option>
                             <option value="triethoc">Triết học MacLenin</option>
-                            <option value="hethongmaytinh">Hệ thống máy tính</option>
-                            <option value="kithuatlaptrinh">Kĩ thuật lập trình</option>
+                            <option value="HTMT">Hệ thống máy tính</option>
+                            <option value="KTLT">Kĩ thuật lập trình</option>
                             <option value="HTMLCSSJS">HTMLCSSJS</option>
                         </select>
                     </div>
@@ -128,7 +127,7 @@
 
                 <div class="item2">
                     <div class="name">Giới thiệu tổng quan:</div>
-                   <input type="text" class="input full" placeholder="-- Giới thiệu tổng quan --">
+                   <input type="text" class="input full" placeholder="-- Giới thiệu tổng quan --" id="description">
                 </div>
             </div>
             <button id="submit2">Gửi</button>
@@ -156,6 +155,20 @@
             </div>
         </div>
     </div>
+    <div class="section-featured-blogs">
+        <div class="title a">
+            <div class="left">
+                <i data-lucide="feather"></i>
+                <p>Bài viết nổi bật</p>
+            </div>
+            <a class="right" href="allfile.html#all-blogs-section">
+                <p class="viewmore">Xem tất cả</p>
+                <i data-lucide="arrow-right"></i>
+            </a>
+        </div>
+        <div class="blog-cards-container" id="featuredBlogsContainer">
+        </div>
+    </div>
     <div class="section-newUp">
         <div class="title a">
             <div class="left">
@@ -178,32 +191,27 @@
                         <div class="format">
                             <img src="Pictures/pdf.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <p>Kinh tế chính trị Mác - Lênin</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -220,32 +228,27 @@
                         <div class="format">
                             <img src="Pictures/word.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>Ki nang lam viec nhom...</p>
+                        <p>Kỹ năng làm việc nhóm hiệu quả</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -262,32 +265,27 @@
                         <div class="format">
                             <img src="Pictures/pdf.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>Chu nghia xa hoi...</p>
+                        <p>Chủ nghĩa xã hội khoa học</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -304,32 +302,27 @@
                         <div class="format">
                             <img src="Pictures/pdf.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>Triet hoc MacLenin ...</p>
+                        <p>Triết học Mác - Lênin</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -369,32 +362,27 @@
                         <div class="format">
                             <img src="Pictures/pdf.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <p>Kinh tế chính trị Mác - Lênin</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -411,32 +399,27 @@
                         <div class="format">
                             <img src="Pictures/word.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>Ki nang lam viec nhom...</p>
+                        <p>Kỹ năng làm việc nhóm hiệu quả</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -453,32 +436,27 @@
                         <div class="format">
                             <img src="Pictures/pdf.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>Chu nghia xa hoi...</p>
+                        <p>Chủ nghĩa xã hội khoa học</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -495,32 +473,27 @@
                         <div class="format">
                             <img src="Pictures/pdf.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>Triet hoc MacLenin ...</p>
+                        <p>Triết học Mác - Lênin</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -531,7 +504,6 @@
                         </button>
                     </div>
                 </div>
-                
             </div>
             <div class="arrow">
                 <i data-lucide="arrow-right"></i>
@@ -550,42 +522,37 @@
             </a>
         </div>
         <div class="wrap">
-            <div class="arrow">
+            <div class="arrow" id="back">
                 <i data-lucide="arrow-left"></i>
             </div>
-            <div class="wrap-inner">
+            <div class="wrap-inner" id="prev">
                 <div class="item">
                     <div class="pic">
                         <img src="Pictures/KTCT.svg" alt="">
                         <div class="format">
                             <img src="Pictures/pdf.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>KTCT - MacLenin - Chuong ...</p>
+                        <p>Kinh tế chính trị Mác - Lênin</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -602,32 +569,27 @@
                         <div class="format">
                             <img src="Pictures/word.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>Ki nang lam viec nhom...</p>
+                        <p>Kỹ năng làm việc nhóm hiệu quả</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -644,32 +606,27 @@
                         <div class="format">
                             <img src="Pictures/pdf.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>Chu nghia xa hoi...</p>
+                        <p>Chủ nghĩa xã hội khoa học</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -686,32 +643,27 @@
                         <div class="format">
                             <img src="Pictures/pdf.svg" alt="">
                         </div>
-                        <div class="endow">
-                            <p>Tặng kèm 300 câu trắc nghiệm</p>
-                            <p>500+ lượt tải</p>
-                            <p>Cam kết 8+</p>
-                        </div>
                     </div>
                     <div class="descript">
-                        <p>Triet hoc MacLenin ...</p>
+                        <p>Triết học Mác - Lênin</p>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="book-open"></i>
-                                <p id="subject">KTCT</p>
+                                <p class="subject-text">KTCT</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="calendar-days"></i>
-                                <p id="years">2025-2026</p>
+                                <p class="years-text">2025-2026</p>
                             </div>
                         </div>
                         <div class="frame">
                             <div class="item">
                                 <i data-lucide="file-text"></i>
-                                <p id="subject">Slide - Bài giảng</p>
+                                <p class="category-text">Slide - Bài giảng</p>
                             </div>
                             <div class="item">
                                 <i data-lucide="university"></i>
-                                <p id="years">IUH</p>
+                                <p class="school-text">IUH</p>
                             </div>
                         </div>
                     </div>
@@ -739,7 +691,7 @@
                     </div>
                 </div>
                 <div class="preview" id="preview">
-                    <iframe id="pdf-viewer" width="100%" height="350px"></iframe>
+                    <iframe id="pdf-viewer" width="100%" height="400px"></iframe>
                 </div>
                 <h3 class="section-title">Giới thiệu tổng quan</h3>
                 <p id="tongQuan" style="line-height: 1.6; color: #475569; margin-bottom: 0;">
@@ -753,15 +705,18 @@
                     <div class="info-item"><b>Số trang</b><span id="soTrang">250 trang</span></div>
                     <div class="info-item"><b>Lần cuối cập nhật</b><span id="capNhat">12/04/2026</span></div>
                 </div>
-                <h3 class="section-title">Phản hồi từ người học</h3>
-                <textarea class="comment-box" placeholder="Chia sẻ cảm nghĩ của bạn về tài liệu này..."></textarea>
-                <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
-                    <button class="btn btn-primary" style="width: auto; padding: 10px 25px; margin: 0;">Gửi đánh giá</button>
+                <h3 class="section-title">Đánh giá của bạn</h3>
+                <div class="rating-stars" style="display: flex; gap: 6px; cursor: pointer; margin-top: 15px; margin-bottom: 25px;">
+                    <i data-lucide="star" class="star-rating-btn" data-value="1" style="width: 28px; height: 28px; stroke: #94a3b8; fill: transparent; transition: all 0.2s;"></i>
+                    <i data-lucide="star" class="star-rating-btn" data-value="2" style="width: 28px; height: 28px; stroke: #94a3b8; fill: transparent; transition: all 0.2s;"></i>
+                    <i data-lucide="star" class="star-rating-btn" data-value="3" style="width: 28px; height: 28px; stroke: #94a3b8; fill: transparent; transition: all 0.2s;"></i>
+                    <i data-lucide="star" class="star-rating-btn" data-value="4" style="width: 28px; height: 28px; stroke: #94a3b8; fill: transparent; transition: all 0.2s;"></i>
+                    <i data-lucide="star" class="star-rating-btn" data-value="5" style="width: 28px; height: 28px; stroke: #94a3b8; fill: transparent; transition: all 0.2s;"></i>
                 </div>
             </div>
             <div class="sidebar">
                 <div class="card">
-                    <div style="font-size: 20px; color: var(--warning); font-weight: bold;">⭐ 4.8 <span style="font-size: 14px; color: var(--secondary); font-weight: normal;">(150 nhận xét)</span></div>
+                    <div style="font-size: 20px; color: var(--warning); font-weight: bold;">⭐ <span id="detailRatingAvg">4.8</span> <span style="font-size: 14px; color: var(--secondary); font-weight: normal;">(150 nhận xét)</span></div>
                     <div class="stats-row">
                     <span> 12.5k lượt xem</span>
                     <span> 2.2k tải về</span>
@@ -773,14 +728,7 @@
                     <button class="btn btn-primary" id="download">TẢI XUỐNG NGAY</button>
                     <button class="btn" style="background: #fdf2f2; color: #dc2626;">Báo cáo vi phạm</button>
                 </div>
-                <div class="card">
-                    <h3 style="margin-top: 0; font-size: 16px;">Tài liệu cùng chuyên mục</h3>
-                    <ul class="related-list">
-                    <li><a href="#">Đề thi mẫu Kinh tế chính trị 2025</a></li>
-                    <li><a href="#">Tóm tắt sơ đồ tư duy 7 chương</a></li>
-                    <li><a href="#">Bài tập giá trị thặng dư có lời giải</a></li>
-                    </ul>
-                </div>
+
             </div>
         </div>
     </section>
@@ -823,9 +771,172 @@
             </div>
         </div>
     </footer>
+    <div class="account-popup-overlay" id="accountPopupOverlay">
+        <div class="account-popup" id="accountPopup">
+            <button class="account-popup-close" id="accountPopupClose">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="account-popup-header">
+                <div class="account-popup-avatar">
+                    <img src="Pictures/pet_cloud_uside 1.svg" alt="avatar">
+                </div>
+                <div class="account-popup-info">
+                    <div class="account-popup-name">Xin chào, <span id="accountPopupName">Bảo</span>!</div>
+                    <div class="account-popup-email" id="accountPopupEmail">bao.nguyen@gmail.com</div>
+                </div>
+            </div>
+            <div class="account-popup-body">
+                <div class="account-accordion">
+                    <div class="account-accordion-header" data-section="favorites">
+                        <div class="account-accordion-icon" style="background: #FFF0F0;">
+                            <i data-lucide="heart" style="color: #FF6B6B;"></i>
+                        </div>
+                        <span>Tài liệu yêu thích</span>
+                        <i data-lucide="chevron-down" class="account-accordion-chevron"></i>
+                    </div>
+                    <div class="account-accordion-content" id="accordion-favorites">
+                        <div class="account-fav-item">
+                            <div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div>
+                            <div class="account-fav-info">
+                                <div class="account-fav-name">Cấu trúc dữ liệu và giải thuật.pdf</div>
+                                <div class="account-fav-meta">PDF • 2.4 MB</div>
+                            </div>
+                            <button class="account-fav-star active"><i data-lucide="star"></i></button>
+                        </div>
+                        <div class="account-fav-item">
+                            <div class="account-fav-icon doc"><img src="Pictures/word.svg" alt="docx"></div>
+                            <div class="account-fav-info">
+                                <div class="account-fav-name">Lập trình hướng đối tượng.docx</div>
+                                <div class="account-fav-meta">DOCX • 1.7 MB</div>
+                            </div>
+                            <button class="account-fav-star active"><i data-lucide="star"></i></button>
+                        </div>
+                        <div class="account-fav-item">
+                            <div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div>
+                            <div class="account-fav-info">
+                                <div class="account-fav-name">Triết học Mác - Lênin.pdf</div>
+                                <div class="account-fav-meta">PDF • 3.1 MB</div>
+                            </div>
+                            <button class="account-fav-star active"><i data-lucide="star"></i></button>
+                        </div>
+                        <a href="#" class="account-view-all">Xem tất cả yêu thích <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="account-accordion">
+                    <div class="account-accordion-header" data-section="history">
+                        <div class="account-accordion-icon" style="background: #FFF5E6;">
+                            <i data-lucide="wallet" style="color: #FF8400;"></i>
+                        </div>
+                        <span>Lịch sử giao dịch</span>
+                        <i data-lucide="chevron-down" class="account-accordion-chevron"></i>
+                    </div>
+                    <div class="account-accordion-content" id="accordion-history">
+                        <div class="account-history-item">
+                            <div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div>
+                            <div class="account-history-info">
+                                <div class="account-history-name">Full tài liệu OOP</div>
+                                <div class="account-history-date">02/06/2024 14:32</div>
+                            </div>
+                            <div class="account-history-price">99.000đ</div>
+                        </div>
+                        <div class="account-history-item">
+                            <div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div>
+                            <div class="account-history-info">
+                                <div class="account-history-name">Sách cấu trúc dữ liệu</div>
+                                <div class="account-history-date">25/05/2024 09:15</div>
+                            </div>
+                            <div class="account-history-price">49.000đ</div>
+                        </div>
+                        <div class="account-history-item">
+                            <div class="account-fav-icon pdf"><img src="Pictures/pdf.svg" alt="pdf"></div>
+                            <div class="account-history-info">
+                                <div class="account-history-name">Trí tuệ nhân tạo cơ bản</div>
+                                <div class="account-history-date">18/05/2024 16:45</div>
+                            </div>
+                            <div class="account-history-price">79.000đ</div>
+                        </div>
+                        <a href="#" class="account-view-all">Xem tất cả giao dịch <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="account-accordion">
+                    <div class="account-accordion-header" data-section="settings">
+                        <div class="account-accordion-icon" style="background: #F0F0F0;">
+                            <i data-lucide="settings" style="color: #666;"></i>
+                        </div>
+                        <span>Cài đặt tài khoản</span>
+                        <i data-lucide="chevron-down" class="account-accordion-chevron"></i>
+                    </div>
+                    <div class="account-accordion-content" id="accordion-settings">
+                        <div class="account-setting-item">
+                            <div class="account-setting-left"><i data-lucide="user" class="account-setting-icon"></i><span>Thông tin tài khoản</span></div>
+                            <i data-lucide="chevron-right" class="account-setting-arrow"></i>
+                        </div>
+                        <div class="account-setting-item">
+                            <div class="account-setting-left"><i data-lucide="lock" class="account-setting-icon"></i><span>Đổi mật khẩu</span></div>
+                            <i data-lucide="chevron-right" class="account-setting-arrow"></i>
+                        </div>
+                        <div class="account-setting-item">
+                            <div class="account-setting-left"><i data-lucide="bell" class="account-setting-icon"></i><span>Thông báo</span></div>
+                            <label class="account-toggle"><input type="checkbox" checked><span class="account-toggle-slider"></span></label>
+                        </div>
+                        <div class="account-setting-item">
+                            <div class="account-setting-left"><i data-lucide="moon" class="account-setting-icon"></i><span>Chế độ tối</span></div>
+                            <label class="account-toggle"><input type="checkbox"><span class="account-toggle-slider"></span></label>
+                        </div>
+                        <div class="account-setting-item">
+                            <div class="account-setting-left"><i data-lucide="globe" class="account-setting-icon"></i><span>Ngôn ngữ</span></div>
+                            <span class="account-setting-value">Tiếng Việt</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="account-logout-section">
+                    <button class="account-logout-btn" id="accountLogoutBtn">
+                        <i data-lucide="log-out"></i>
+                        <span>Đăng xuất</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="blog-modal-overlay" id="blogModalOverlay">
+        <div class="blog-modal" id="blogModal">
+            <button class="blog-modal-close" id="blogModalClose">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="blog-modal-scroll">
+                <div class="loading-state" id="blogModalLoading">
+                    <div class="spinner"></div>
+                    <p>Đang tải bài viết...</p>
+                </div>
+                <div class="blog-modal-content" id="blogModalContent" style="display: none;">
+                    <div class="blog-header-meta">
+                        <h1 class="blog-title" id="modalBlogTitle">Tiêu đề bài viết</h1>
+                        <div class="blog-meta-info">
+                            <span class="meta-item">
+                                <i data-lucide="calendar"></i>
+                                <span id="modalBlogDate">--/--/----</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="blog-cover-wrapper">
+                        <img src="Pictures/KTCT.svg" alt="Cover Image" id="modalBlogCover" class="blog-cover-image">
+                    </div>
+                    <div class="blog-lead" id="modalBlogLead">
+                        Tóm tắt/mô tả ngắn về bài viết...
+                    </div>
+                    <div class="blog-body markdown-body" id="modalBlogBody">
+                        Nội dung chi tiết của bài viết...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="common.js"></script>
     <script src="index.js"></script>
 </body>
 </html>
