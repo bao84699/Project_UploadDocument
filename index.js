@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let activeDocId = null;
     let validFiles = [];
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('upload') === 'true' && sessionStorage.getItem('isAdmin') === 'true') {
+    const isAdminFromStorage = window.AuthUtils ? window.AuthUtils.ensureAdminFromStoredProfile() : sessionStorage.getItem('isAdmin') === 'true';
+    if (urlParams.get('upload') === 'true' && isAdminFromStorage) {
         if (overlay) overlay.classList.add('active');
     }
 
@@ -397,6 +398,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.dataset.boundDetail = "true";
                 item.addEventListener('click', (e) => {
                     if (e.target.closest('.bookmark') || e.target.closest('button')) {
+                        return;
+                    }
+                    // Kiểm tra đăng nhập trước khi xem chi tiết
+                    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                    if (!isLoggedIn) {
+                        Swal.fire({
+                            title: 'Yêu cầu đăng nhập',
+                            text: 'Bạn phải đăng nhập để xem chi tiết',
+                            icon: 'warning',
+                            confirmButtonText: 'Đăng nhập',
+                            confirmButtonColor: '#FF8400',
+                            showCancelButton: true,
+                            cancelButtonText: 'Hủy',
+                            cancelButtonColor: '#6B7280'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'login.html';
+                            }
+                        });
                         return;
                     }
                     if (docDetailOverlay) {
@@ -1004,7 +1024,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const blog = data[0];
             document.getElementById('modalBlogTitle').textContent = blog.tieuDe || 'Không có tiêu đề';
             document.getElementById('modalBlogLead').textContent = blog.moTa || '';
-            document.getElementById('modalBlogBody').innerHTML = blog.noiDung || '<p>Không có nội dung.</p>';
             const coverEl = document.getElementById('modalBlogCover');
             coverEl.src = blog.anhMinhHoa || 'Pictures/KTCT.svg';
             coverEl.alt = blog.tieuDe;
@@ -1017,6 +1036,45 @@ document.addEventListener('DOMContentLoaded', function() {
             const badge = document.getElementById('modalBlogBadge');
             const tLow = (blog.tieuDe || '').toLowerCase();
             const mLow = (blog.moTa || '').toLowerCase();
+
+            // Kiểm tra đăng nhập
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const modalBlogBody = document.getElementById('modalBlogBody');
+            const modalBlogLoginGate = document.getElementById('modalBlogLoginGate');
+            const modalBlogViewDetailBtn = document.getElementById('modalBlogViewDetailBtn');
+            const modalBlogDetailGate = document.getElementById('modalBlogDetailGate');
+            const modalBlogGoDetailBtn = document.getElementById('modalBlogGoDetailBtn');
+
+            // Luôn ẩn nội dung đầy đủ trong modal
+            modalBlogBody.style.display = 'none';
+            modalBlogBody.innerHTML = '';
+
+            if (isLoggedIn) {
+                // Đã đăng nhập → hiện nút "Xem chi tiết" để vào trang blog
+                if (modalBlogLoginGate) modalBlogLoginGate.style.display = 'none';
+                if (modalBlogDetailGate) modalBlogDetailGate.style.display = 'flex';
+                if (modalBlogGoDetailBtn) {
+                    const newBtn = modalBlogGoDetailBtn.cloneNode(true);
+                    modalBlogGoDetailBtn.parentNode.replaceChild(newBtn, modalBlogGoDetailBtn);
+                    newBtn.addEventListener('click', function() {
+                        window.location.href = `blog.html?slug=${encodeURIComponent(slug)}`;
+                    });
+                }
+            } else {
+                // Chưa đăng nhập → hiện nút đăng nhập
+                if (modalBlogLoginGate) modalBlogLoginGate.style.display = 'flex';
+                if (modalBlogDetailGate) modalBlogDetailGate.style.display = 'none';
+                // Bấm nút → chuyển sang trang đăng nhập
+                if (modalBlogViewDetailBtn) {
+                    const newBtn = modalBlogViewDetailBtn.cloneNode(true);
+                    modalBlogViewDetailBtn.parentNode.replaceChild(newBtn, modalBlogViewDetailBtn);
+                    newBtn.addEventListener('click', function() {
+                        const returnUrl = `blog.html?slug=${encodeURIComponent(slug)}`;
+                        window.location.href = `login.html?redirect=${encodeURIComponent(returnUrl)}`;
+                    });
+                }
+            }
+
             blogModalLoading.style.display = 'none';
             blogModalContent.style.display = 'block';
             if (window.lucide) window.lucide.createIcons();

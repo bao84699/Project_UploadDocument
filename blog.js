@@ -1,5 +1,6 @@
 const SUPABASE_URL = 'https://biyyiobvozlgmuphsrph.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_jiPT2DziUxHLqQN5SILw-w_iwiha-DW';
+
 document.addEventListener('DOMContentLoaded', function() {
     if (window.lucide) {
         window.lucide.createIcons();
@@ -17,6 +18,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         return;
     }
+
+    // Kiểm tra trạng thái đăng nhập
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+        // Chưa đăng nhập → chuyển sang trang đăng nhập
+        const returnUrl = `blog.html?slug=${encodeURIComponent(slug)}`;
+        window.location.href = `login.html?redirect=${encodeURIComponent(returnUrl)}`;
+        return;
+    }
+
+    // Đã đăng nhập → tải nội dung blog
     taiNoiDungBlog(slug);
 });
 
@@ -28,7 +40,6 @@ async function taiNoiDungBlog(slug) {
     const blogCover = document.getElementById('blogCover');
     const blogLead = document.getElementById('blogLead');
     const blogBody = document.getElementById('blogBody');
-    const blogBadge = document.getElementById('blogBadge');
 
     try {
         const url = `${SUPABASE_URL}/rest/v1/blogs?duongDan=eq.${encodeURIComponent(slug)}`;
@@ -49,9 +60,10 @@ async function taiNoiDungBlog(slug) {
             throw new Error('Bài viết không tồn tại hoặc đã bị xóa.');
         }
         const blog = data[0];
+
         blogTitle.textContent = blog.tieuDe || 'Không có tiêu đề';
         blogLead.textContent = blog.moTa || '';
-        blogBody.innerHTML = blog.noiDung || '<p>Không có nội dung.</p>';
+
         if (blog.anhMinhHoa) {
             blogCover.src = blog.anhMinhHoa;
             blogCover.alt = blog.tieuDe;
@@ -68,6 +80,11 @@ async function taiNoiDungBlog(slug) {
             dateStr = `${day}/${month}/${year}`;
         }
         blogDate.textContent = dateStr;
+
+        // Luôn hiển thị toàn bộ nội dung (đã đăng nhập rồi mới tới đây)
+        blogBody.innerHTML = blog.noiDung || '<p>Không có nội dung.</p>';
+        blogBody.style.display = 'block';
+
         if (loadingState) loadingState.style.display = 'none';
         if (blogContentWrapper) blogContentWrapper.style.display = 'block';
         if (window.lucide) {

@@ -1769,6 +1769,115 @@ textarea.input:focus {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
+/* ===== BLOG MODAL LOGIN GATE ===== */
+.blog-modal-login-gate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    margin: 0 0 24px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #FFF8F0 0%, #FFF1E0 50%, #FFE8CC 100%);
+    border: 2px dashed rgba(255, 132, 0, 0.25);
+    text-align: center;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-modal-login-gate::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 132, 0, 0.04) 0%, transparent 70%);
+    animation: blogGatePulse 4s ease-in-out infinite;
+}
+
+@keyframes blogGatePulse {
+    0%, 100% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
+
+.blog-modal-gate-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #FF8400, #FF6B00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(255, 132, 0, 0.25);
+    position: relative;
+    z-index: 1;
+}
+
+.blog-modal-gate-icon svg {
+    width: 22px;
+    height: 22px;
+    color: white;
+    stroke-width: 2.5px;
+}
+
+.blog-modal-gate-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B7280;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.blog-modal-gate-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    color: white;
+    background: linear-gradient(135deg, #FF8400 0%, #FF6B00 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 14px rgba(255, 132, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+}
+
+.blog-modal-gate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 132, 0, 0.4);
+    background: linear-gradient(135deg, #FF9520 0%, #FF7B10 100%);
+    color: white;
+}
+
+.blog-modal-gate-btn:active {
+    transform: translateY(0);
+}
+
+.blog-modal-gate-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5px;
+}
+
+/* Detail gate: nút xem chi tiết khi đã đăng nhập */
+.blog-modal-detail-gate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    margin: 8px 0 0;
+}
+
 @media (max-width: 640px) {
     .blog-modal {
         width: 95%;
@@ -1783,5 +1892,15 @@ textarea.input:focus {
     }
     .blog-modal .blog-lead {
         font-size: 15px;
+    }
+    .blog-modal-login-gate {
+        padding: 28px 16px;
+    }
+    .blog-modal-detail-gate {
+        padding: 24px 16px;
+    }
+    .blog-modal-gate-btn {
+        padding: 10px 22px;
+        font-size: 13px;
     }
 }

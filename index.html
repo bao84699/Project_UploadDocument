@@ -925,6 +925,24 @@
                     <div class="blog-lead" id="modalBlogLead">
                         Tóm tắt/mô tả ngắn về bài viết...
                     </div>
+                    <div class="blog-modal-login-gate" id="modalBlogLoginGate" style="display: none;">
+                        <div class="blog-modal-gate-icon">
+                            <i data-lucide="lock"></i>
+                        </div>
+                        <p class="blog-modal-gate-text">Đăng nhập để đọc toàn bộ nội dung bài viết</p>
+                        <button type="button" class="blog-modal-gate-btn" id="modalBlogViewDetailBtn">
+                            <i data-lucide="log-in"></i>
+                            <span>Đăng nhập ngay</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="blog-modal-detail-gate" id="modalBlogDetailGate" style="display: none;">
+                        <button type="button" class="blog-modal-gate-btn" id="modalBlogGoDetailBtn">
+                            <i data-lucide="eye"></i>
+                            <span>Xem chi tiết</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
                     <div class="blog-body markdown-body" id="modalBlogBody">
                         Nội dung chi tiết của bài viết...
                     </div>
@@ -936,6 +954,7 @@
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="auth-utils.js"></script>
     <script src="common.js"></script>
     <script src="index.js"></script>
 </body>

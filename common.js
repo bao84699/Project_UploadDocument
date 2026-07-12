@@ -14,9 +14,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const accountPopupName = document.getElementById('accountPopupName');
     const accountPopupEmail = document.getElementById('accountPopupEmail');
 
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const userName = localStorage.getItem('userName') || '';
-    const userEmail = localStorage.getItem('userEmail') || '';
+    const authProfile = window.AuthUtils ? window.AuthUtils.readStoredProfile() : {
+        isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+        userName: localStorage.getItem('userName') || '',
+        userEmail: localStorage.getItem('userEmail') || ''
+    };
+
+    const isLoggedIn = authProfile.isLoggedIn;
+    const userName = authProfile.userName;
+    const userEmail = authProfile.userEmail;
+    const isAdmin = window.AuthUtils ? window.AuthUtils.syncAdminState(authProfile) : sessionStorage.getItem('isAdmin') === 'true';
 
     if (isLoggedIn) {
         if (dropdownImg) {
@@ -30,10 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
             accountPopupEmail.textContent = userEmail || 'user@gmail.com';
         }
         if (userBtn) {
-            userBtn.textContent = userName || 'Thành viên';
+            userBtn.textContent = userName || 'User';
             userBtn.href = '#';
             userBtn.addEventListener('click', function(e) {
                 e.preventDefault();
+                if (dropdownMenu) dropdownMenu.classList.remove('show');
                 openAccountPopup();
             });
         }
@@ -61,6 +69,12 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdownBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             if (localStorage.getItem('isLoggedIn') === 'true') {
+                // Admin đã đăng nhập → hiện dropdown (có Dashboard, Tải lên, ...)
+                if (isAdmin) {
+                    dropdownMenu.classList.toggle('show');
+                    return;
+                }
+                // User thường → mở popup tài khoản
                 dropdownMenu.classList.remove('show');
                 openAccountPopup();
                 return;
@@ -143,10 +157,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function performLogout() {
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('userEmail');
-        sessionStorage.removeItem('isAdmin');
+        if (window.AuthUtils) {
+            window.AuthUtils.clearAuthProfile();
+        } else {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            sessionStorage.removeItem('isAdmin');
+        }
         if (window.Swal) {
             Swal.fire({
                 title: 'Đã đăng xuất',
@@ -196,9 +214,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+    function appendDashboardLink() {
+        if (!document.getElementById('dashboard-item') && dropdownMenu) {
+            const newLi = document.createElement('li');
+            const newLink = document.createElement('a');
+            newLink.href = 'dashboard.html';
+            newLink.id = 'dashboard-item';
+            newLink.textContent = 'Dashboard';
+            newLi.appendChild(newLink);
+            dropdownMenu.appendChild(newLi);
+        }
+    }
+
     if (isAdmin) {
         appendUploadLink();
+        appendDashboardLink();
         if (adminBtn) {
             adminBtn.textContent = "Admin";
         }
@@ -209,43 +239,32 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             e.stopPropagation();
 
-            if (sessionStorage.getItem('isAdmin') === 'true') {
+            const currentAdmin = window.AuthUtils ? window.AuthUtils.ensureAdminFromStoredProfile() : sessionStorage.getItem('isAdmin') === 'true';
+            if (currentAdmin) {
                 window.location.href = 'dashboard.html';
                 return;
             }
 
-            const passInput = prompt("Vui lòng nhập mật khẩu Admin:");
-            const adminPassword = "123";
+            const currentEmail = (localStorage.getItem('userEmail') || '').trim();
+            const isUserLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-            if (passInput === adminPassword) {
-                sessionStorage.setItem('isAdmin', 'true');
+            if (isUserLoggedIn && window.AuthUtils && window.AuthUtils.isAdminEmail(currentEmail)) {
+                window.AuthUtils.syncAdminState({
+                    isLoggedIn: true,
+                    userName: localStorage.getItem('userName') || '',
+                    userEmail: currentEmail
+                });
                 appendUploadLink();
+                appendDashboardLink();
                 if (adminBtn) {
-                    adminBtn.textContent = "Trang quản trị";
+                    adminBtn.textContent = 'Trang quản trị';
                 }
-                if (window.Swal) {
-                    Swal.fire({
-                        title: "Thành công",
-                        text: "Xác nhận Admin thành công!",
-                        icon: "success"
-                    }).then(() => {
-                        window.location.href = 'dashboard.html';
-                    });
-                } else {
-                    alert("Xác nhận Admin thành công!");
-                    window.location.href = 'dashboard.html';
-                }
-            } else if (passInput !== null) {
-                if (window.Swal) {
-                    Swal.fire({
-                        title: "Thất bại",
-                        text: "Sai mật khẩu Admin!",
-                        icon: "error"
-                    });
-                } else {
-                    alert("Sai mật khẩu Admin!");
-                }
+                window.location.href = 'dashboard.html';
+                return;
             }
+
+            // Chưa đăng nhập hoặc không phải admin → chuyển sang trang đăng nhập
+            window.location.href = 'login.html';
         });
     }
 

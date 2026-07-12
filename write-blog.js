@@ -33,8 +33,28 @@ const BUCKET_NAME = 'prism-documents';
 const TABLE_NAME = 'PrismUploadDocuments2026';
 const TABLE_NAME_BLOGS = 'blogs';
 
+function getStoredProfile() {
+    return {
+        isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+        userName: localStorage.getItem('userName') || '',
+        userEmail: localStorage.getItem('userEmail') || ''
+    };
+}
+
+function isAdminProfile(profile) {
+    return Boolean(profile.isLoggedIn && window.AuthUtils && window.AuthUtils.isAdminEmail(profile.userEmail));
+}
+
 function kiemTraQuyenAdmin() {
-    const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+    const storedProfile = getStoredProfile();
+    const isAdmin = sessionStorage.getItem('isAdmin') === 'true' || isAdminProfile(storedProfile);
+    if (isAdmin && window.AuthUtils) {
+        window.AuthUtils.syncAdminState({
+            isLoggedIn: true,
+            userName: storedProfile.userName,
+            userEmail: storedProfile.userEmail
+        });
+    }
     if (!isAdmin) {
         if (window.Swal) {
             Swal.fire({

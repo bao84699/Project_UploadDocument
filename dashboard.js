@@ -39,8 +39,29 @@
     const userAvatarInitial = document.getElementById('userAvatarInitial');
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toastMessage');
+
+    function getStoredProfile() {
+        return {
+            isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+            userName: localStorage.getItem('userName') || 'Admin',
+            userEmail: localStorage.getItem('userEmail') || 'admin@doczone.com'
+        };
+    }
+
+    function isAdminProfile(profile) {
+        return Boolean(profile.isLoggedIn && window.AuthUtils && window.AuthUtils.isAdminEmail(profile.userEmail));
+    }
+
     function checkAdminAccess() {
-        const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+        const storedProfile = getStoredProfile();
+        const isAdmin = sessionStorage.getItem('isAdmin') === 'true' || isAdminProfile(storedProfile);
+        if (isAdmin && window.AuthUtils) {
+            window.AuthUtils.syncAdminState({
+                isLoggedIn: true,
+                userName: storedProfile.userName,
+                userEmail: storedProfile.userEmail
+            });
+        }
         if (!isAdmin) {
             window.location.href = 'index.html';
             return false;
@@ -55,8 +76,9 @@
     }
 
     function loadUserInfo() {
-        const userName = localStorage.getItem('userName') || 'Admin';
-        const userEmail = localStorage.getItem('userEmail') || 'admin@doczone.com';
+        const storedProfile = getStoredProfile();
+        const userName = storedProfile.userName;
+        const userEmail = storedProfile.userEmail;
         if (dashUserName) dashUserName.textContent = `${userName}`;
         if (dashUserEmail) dashUserEmail.textContent = userEmail;
         if (userAvatarInitial) userAvatarInitial.textContent = userName.charAt(0).toUpperCase();

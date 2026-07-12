@@ -5,9 +5,29 @@ const supabaseUrl2 = "https://hfliuepqksujzfigdbil.supabase.co";
 const supabaseKey2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmbGl1ZXBxa3N1anpmaWdkYmlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5NjE0NDQsImV4cCI6MjA3OTUzNzQ0NH0.KBudwsSKj8gq4pVsvZ3myUKY2z0FRD2D9x76EELxFv8";
 const supabaseClient2 = supabase.createClient(supabaseUrl2, supabaseKey2);
 window.supabaseClient2 = supabaseClient2;
-console.log("URL:", supabaseUrl2);
-console.log("KEY:", supabaseKey2);
-console.log(supabase);/*---------------XU LI CHUYEN FORM--------------*/
+
+function applyAuthenticatedProfile(profile) {
+    if (window.AuthUtils) {
+        return window.AuthUtils.applyAuthProfile(profile);
+    }
+
+    localStorage.setItem('isLoggedIn', profile.isLoggedIn ? 'true' : 'false');
+    localStorage.setItem('userName', profile.userName || '');
+    localStorage.setItem('userEmail', profile.userEmail || '');
+
+    if (profile.isLoggedIn && window.AuthUtils && window.AuthUtils.isAdminEmail(profile.userEmail)) {
+        sessionStorage.setItem('isAdmin', 'true');
+    } else {
+        sessionStorage.removeItem('isAdmin');
+    }
+
+    return {
+        profile,
+        isAdmin: sessionStorage.getItem('isAdmin') === 'true'
+    };
+}
+
+/*---------------XU LI CHUYEN FORM--------------*/
 const dangNhap = document.querySelector('.dang-nhap');
 const dangKi = document.querySelector('.dang-ki');
 const formDangNhap = document.getElementById('dang-nhap-form');
@@ -64,6 +84,11 @@ btnRegister.addEventListener("click", async (e)=> {
                 data: { name: name }
             }
         });
+        console.log('Sign up result:', {
+            hasSession: Boolean(data && data.session),
+            emailConfirmedAt: data && data.user ? data.user.email_confirmed_at : null,
+            userEmail: data && data.user ? data.user.email : email
+        });
         if (error != null) {
             console.log(error);
             if (error.message.includes("already registered")) {
@@ -71,14 +96,25 @@ btnRegister.addEventListener("click", async (e)=> {
                 document.getElementById("loi-email-register").style.display = "flex";
             }
         } else {
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userName', name);
-            localStorage.setItem('userEmail', email);
+            const hasSession = Boolean(data && data.session);
+            applyAuthenticatedProfile({
+                isLoggedIn: hasSession,
+                userName: name,
+                userEmail: email
+            });
             notification.style.transform = "translateX(0)";
-            document.getElementById('thongBao').textContent = 'Đăng ký thành công';
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 2000);
+            document.getElementById('thongBao').textContent = hasSession
+                ? 'Đăng ký thành công'
+                : 'Đăng ký thành công. Vui lòng kiểm tra email để xác minh tài khoản.';
+            document.getElementById('trangThai').textContent = hasSession
+                ? 'Đang chuyển hướng ...'
+                : 'Bạn có thể đăng nhập sau khi xác minh email';
+
+            if (hasSession) {
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 2000);
+            }
         }
     }
 })
@@ -150,21 +186,31 @@ btnLogin.addEventListener("click", async (e)=> {
             password
         });
 
-        console.log("DATA:", data);
-console.log("ERROR:", error);
-
-if (error) {
-    console.error(error);
+        if (error) {
+            console.log(error);
+            loiPassword.textContent = "Email hoặc mật khẩu không đúng!";
+            loiPassword.style.display = "flex";
         } else {
-            localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("userName", data.user.user_metadata?.name || "");
-            localStorage.setItem("userEmail", data.user.email);
+            applyAuthenticatedProfile({
+                isLoggedIn: Boolean(data && data.session),
+                userName: data.user.user_metadata?.name || "",
+                userEmail: data.user.email
+            });
 
             notification.style.transform = "translateX(0)";
             document.getElementById('thongBao').textContent = 'Đăng nhập thành công';
+            document.getElementById('trangThai').textContent = 'Đang chuyển hướng ...';
+
+            // Kiểm tra redirect param (từ blog hoặc trang khác)
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectUrl = urlParams.get('redirect');
 
             setTimeout(() => {
-                window.location.href = "index.html";
+                if (redirectUrl) {
+                    window.location.href = decodeURIComponent(redirectUrl);
+                } else {
+                    window.location.href = "index.html";
+                }
             }, 2000);
         }
     }
