@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentRating = 0;
     let activeDocId = null;
     let validFiles = [];
+    let allCachedDocuments = [];
+    let allCachedBlogs = [];
     const urlParams = new URLSearchParams(window.location.search);
     const isAdminFromStorage = window.AuthUtils ? window.AuthUtils.ensureAdminFromStoredProfile() : sessionStorage.getItem('isAdmin') === 'true';
     if (urlParams.get('upload') === 'true' && isAdminFromStorage) {
@@ -391,6 +393,118 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    function openDocumentDetail(doc) {
+        if (!doc) return;
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (!isLoggedIn) {
+            Swal.fire({
+                title: 'Yêu cầu đăng nhập',
+                text: 'Bạn phải đăng nhập để xem chi tiết tài liệu',
+                icon: 'warning',
+                confirmButtonText: 'Đăng nhập ngay',
+                confirmButtonColor: '#FF8400',
+                showCancelButton: true,
+                cancelButtonText: 'Hủy',
+                cancelButtonColor: '#6B7280'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.html';
+                }
+            });
+            return;
+        }
+
+        if (!docDetailOverlay) return;
+
+        const title = doc.name || doc.FileName || "Tài liệu";
+        const school = doc.school || doc.schoolName || "Chưa rõ";
+        const description = doc.discription || doc.description || "Không có mô tả chi tiết cho tài liệu này.";
+        const fileUrl = doc.url || doc.fileUrl || "";
+        activeDocId = doc.id;
+
+        const modalTitle = docDetailOverlay.querySelector('.title');
+        const modalAuthor = document.getElementById('tacGia');
+        const modalDescription = document.getElementById('tongQuan');
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const downloadBtn = document.getElementById('download');
+        if (modalTitle) modalTitle.textContent = title;
+        if (modalAuthor) modalAuthor.textContent = school;
+        if (modalDescription) modalDescription.textContent = description;
+
+        const userEmail = localStorage.getItem('userEmail') || 'anonymous';
+        const docRatingsMap = JSON.parse(localStorage.getItem('doc_ratings_map') || '{}');
+        let ratingsObj = docRatingsMap[activeDocId];
+
+        const dbRating = parseFloat(doc.rating) || 0;
+        if (!ratingsObj) {
+            ratingsObj = {};
+            if (dbRating > 0) {
+                ratingsObj['_seed'] = dbRating;
+            }
+            if (activeDocId) {
+                docRatingsMap[activeDocId] = ratingsObj;
+                localStorage.setItem('doc_ratings_map', JSON.stringify(docRatingsMap));
+            }
+        }
+
+        const userRating = ratingsObj ? (ratingsObj[userEmail] || 0) : 0;
+        currentRating = userRating;
+        highlightStars(userRating);
+
+        const vals = ratingsObj ? Object.values(ratingsObj) : [];
+        const avgRating = vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length) : dbRating;
+        const ratingText = avgRating > 0 ? avgRating.toFixed(1) : "—";
+        const detailRatingAvg = document.getElementById('detailRatingAvg');
+        if (detailRatingAvg) detailRatingAvg.textContent = ratingText;
+
+        if (pdfViewer) {
+            if (fileUrl) {
+                if (/\.(docx|doc|pptx|ppt|xlsx|xls)(?:$|\?)/i.test(fileUrl)) {
+                    pdfViewer.src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`;
+                } else {
+                    pdfViewer.src = fileUrl;
+                }
+                pdfViewer.style.display = 'block';
+            } else {
+                pdfViewer.src = '';
+                pdfViewer.style.display = 'none';
+            }
+        }
+
+        if (downloadBtn) {
+            downloadBtn.onclick = async (event) => {
+                event.preventDefault();
+                if (fileUrl) {
+                    try {
+                        downloadBtn.disabled = true;
+                        downloadBtn.textContent = 'Đang tải...';
+                        const response = await fetch(fileUrl);
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        const fileName = fileUrl.split('/').pop().split('?')[0] || 'tai-lieu';
+                        a.download = decodeURIComponent(fileName);
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+                    } catch (err) {
+                        console.error('Lỗi tải file:', err);
+                        window.open(fileUrl, '_blank');
+                    } finally {
+                        downloadBtn.disabled = false;
+                        downloadBtn.textContent = 'TẢI XUỐNG NGAY';
+                    }
+                } else {
+                    Swal.fire("Lỗi", "Không có liên kết để tải tài liệu này!", "error");
+                }
+            };
+        }
+
+        docDetailOverlay.classList.add('show');
+    }
+
     function bindDetailClick() {
         const items = document.querySelectorAll('.wrap-inner > .item');
         items.forEach(item => {
@@ -400,116 +514,99 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (e.target.closest('.bookmark') || e.target.closest('button')) {
                         return;
                     }
-                    // Kiểm tra đăng nhập trước khi xem chi tiết
-                    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-                    if (!isLoggedIn) {
-                        Swal.fire({
-                            title: 'Yêu cầu đăng nhập',
-                            text: 'Bạn phải đăng nhập để xem chi tiết',
-                            icon: 'warning',
-                            confirmButtonText: 'Đăng nhập',
-                            confirmButtonColor: '#FF8400',
-                            showCancelButton: true,
-                            cancelButtonText: 'Hủy',
-                            cancelButtonColor: '#6B7280'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = 'login.html';
-                            }
-                        });
-                        return;
-                    }
-                    if (docDetailOverlay) {
-                        const title = item.querySelector('.descript > p')?.textContent || "Tài liệu";
-                        const subject = item.querySelector('.subject-text')?.textContent || "Chưa rõ";
-                        const school = item.querySelector('.school-text')?.textContent || "Chưa rõ";
-                        const description = item.getAttribute('data-description') || "Không có mô tả chi tiết cho tài liệu này.";
-                        const fileUrl = item.getAttribute('data-url') || "";                     
-                        activeDocId = item.getAttribute('data-id');
-                        
-                        const modalTitle = docDetailOverlay.querySelector('.title');
-                        const modalAuthor = document.getElementById('tacGia');
-                        const modalDescription = document.getElementById('tongQuan');
-                        const pdfViewer = document.getElementById('pdf-viewer');
-                        const downloadBtn = document.getElementById('download');
-                        if (modalTitle) modalTitle.textContent = title;
-                        if (modalAuthor) modalAuthor.textContent = school;
-                        if (modalDescription) modalDescription.textContent = description;
-                        
-                        const userEmail = localStorage.getItem('userEmail') || 'anonymous';
-                        const docRatingsMap = JSON.parse(localStorage.getItem('doc_ratings_map') || '{}');
-                        let ratingsObj = docRatingsMap[activeDocId];
-                        
-                        const dbRating = parseFloat(item.getAttribute('data-rating')) || 0;
-                        if (!ratingsObj) {
-                            ratingsObj = {};
-                            if (dbRating > 0) {
-                                ratingsObj['_seed'] = dbRating;
-                            }
-                            docRatingsMap[activeDocId] = ratingsObj;
-                            localStorage.setItem('doc_ratings_map', JSON.stringify(docRatingsMap));
-                        }
-
-                        const userRating = ratingsObj[userEmail] || 0;
-                        currentRating = userRating;
-                        highlightStars(userRating);
-
-                        const vals = Object.values(ratingsObj);
-                        const avgRating = vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length) : dbRating;
-                        const ratingText = avgRating > 0 ? avgRating.toFixed(1) : "—";
-                        const detailRatingAvg = document.getElementById('detailRatingAvg');
-                        if (detailRatingAvg) detailRatingAvg.textContent = ratingText;
-                        if (pdfViewer) {
-                            if (fileUrl) {
-                                if (/\.(docx|doc|pptx|ppt|xlsx|xls)(?:$|\?)/i.test(fileUrl)) {
-                                    pdfViewer.src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`;
-                                } else {
-                                    pdfViewer.src = fileUrl;
-                                }
-                                pdfViewer.style.display = 'block';
-                            } else {
-                                pdfViewer.src = '';
-                                pdfViewer.style.display = 'none';
-                            }
-                        }
-
-                        if (downloadBtn) {
-                            downloadBtn.onclick = async (event) => {
-                                event.preventDefault();
-                                if (fileUrl) {
-                                    try {
-                                        downloadBtn.disabled = true;
-                                        downloadBtn.textContent = 'Đang tải...';
-                                        const response = await fetch(fileUrl);
-                                        const blob = await response.blob();
-                                        const url = window.URL.createObjectURL(blob);
-                                        const a = document.createElement('a');
-                                        a.href = url;
-                                        const fileName = fileUrl.split('/').pop().split('?')[0] || 'tai-lieu';
-                                        a.download = decodeURIComponent(fileName);
-                                        document.body.appendChild(a);
-                                        a.click();
-                                        document.body.removeChild(a);
-                                        window.URL.revokeObjectURL(url);
-                                    } catch (err) {
-                                        console.error('Lỗi tải file:', err);
-                                        window.open(fileUrl, '_blank');
-                                    } finally {
-                                        downloadBtn.disabled = false;
-                                        downloadBtn.textContent = 'TẢI XUỐNG NGAY';
-                                    }
-                                } else {
-                                    Swal.fire("Lỗi", "Không có liên kết để tải tài liệu này!", "error");
-                                }
-                            };
-                        }
-                        
-                        docDetailOverlay.classList.add('show');
-                    }
+                    const docObj = {
+                        id: item.getAttribute('data-id'),
+                        name: item.querySelector('.descript > p')?.textContent || "Tài liệu",
+                        school: item.querySelector('.school-text')?.textContent || "Chưa rõ",
+                        subject: item.querySelector('.subject-text')?.textContent || "Chưa rõ",
+                        discription: item.getAttribute('data-description') || "Không có mô tả chi tiết cho tài liệu này.",
+                        url: item.getAttribute('data-url') || "",
+                        rating: item.getAttribute('data-rating')
+                    };
+                    openDocumentDetail(docObj);
                 });
             }
         });
     }
+    const fallbackStaticDocs = [
+        {
+            id: 'static-ktct',
+            name: 'Kinh tế chính trị Mác - Lênin',
+            FileName: 'Kinh tế chính trị Mác - Lênin',
+            school: 'IUH',
+            schoolName: 'IUH',
+            subject: 'KTCT',
+            subjectName: 'KTCT',
+            years: '2025-2026',
+            academicYear: '2025-2026',
+            category: 'Slide - Bài giảng',
+            discription: 'Giáo trình & Slide bài giảng Kinh tế chính trị Mác - Lênin chuẩn khung đại học 2021.',
+            description: 'Giáo trình & Slide bài giảng Kinh tế chính trị Mác - Lênin chuẩn khung đại học 2021.',
+            thumbnail: 'Pictures/KTCT.svg',
+            filePath: 'Pictures/KTCT.svg',
+            url: 'uploads/KTCT.pdf',
+            fileUrl: 'uploads/KTCT.pdf',
+            rating: 4.8
+        },
+        {
+            id: 'static-knlvm',
+            name: 'Kỹ năng làm việc nhóm hiệu quả',
+            FileName: 'Kỹ năng làm việc nhóm hiệu quả',
+            school: 'IUH',
+            schoolName: 'IUH',
+            subject: 'KTCT',
+            subjectName: 'Kỹ năng mềm',
+            years: '2025-2026',
+            academicYear: '2025-2026',
+            category: 'Slide - Bài giảng',
+            discription: 'Bộ kỹ năng làm việc nhóm, phân chia công việc và kỹ năng giao tiếp trong tập thể.',
+            description: 'Bộ kỹ năng làm việc nhóm, phân chia công việc và kỹ năng giao tiếp trong tập thể.',
+            thumbnail: 'Pictures/KNLVN.svg',
+            filePath: 'Pictures/KNLVN.svg',
+            url: 'Pictures/KNLVM.docx',
+            fileUrl: 'Pictures/KNLVM.docx',
+            rating: 4.9
+        },
+        {
+            id: 'static-cnxh',
+            name: 'Chủ nghĩa xã hội khoa học',
+            FileName: 'Chủ nghĩa xã hội khoa học',
+            school: 'IUH',
+            schoolName: 'IUH',
+            subject: 'CNXH',
+            subjectName: 'CNXH',
+            years: '2025-2026',
+            academicYear: '2025-2026',
+            category: 'Giáo trình/Slide',
+            discription: 'Tài liệu học tập & câu hỏi ôn tập môn Chủ nghĩa xã hội khoa học.',
+            description: 'Tài liệu học tập & câu hỏi ôn tập môn Chủ nghĩa xã hội khoa học.',
+            thumbnail: 'Pictures/CNXH.svg',
+            filePath: 'Pictures/CNXH.svg',
+            url: 'uploads/KTCT.pdf',
+            fileUrl: 'uploads/KTCT.pdf',
+            rating: 4.7
+        },
+        {
+            id: 'static-maclenin',
+            name: 'Triết học Mác - Lênin',
+            FileName: 'Triết học Mác - Lênin',
+            school: 'IUH',
+            schoolName: 'IUH',
+            subject: 'Triết học',
+            subjectName: 'Triết học',
+            years: '2025-2026',
+            academicYear: '2025-2026',
+            category: 'Giáo trình/Slide',
+            discription: 'Giáo trình Triết học Mác - Lênin toàn tập kèm sơ đồ tư duy các quy luật triết học.',
+            description: 'Giáo trình Triết học Mác - Lênin toàn tập kèm sơ đồ tư duy các quy luật triết học.',
+            thumbnail: 'Pictures/MacLenin.svg',
+            filePath: 'Pictures/MacLenin.svg',
+            url: 'uploads/KTCT.pdf',
+            fileUrl: 'uploads/KTCT.pdf',
+            rating: 4.6
+        }
+    ];
+
     async function loadDocuments() {
         const wrapInners = document.querySelectorAll(".wrap-inner");
         if (wrapInners.length === 0) return;
@@ -530,9 +627,60 @@ document.addEventListener('DOMContentLoaded', function() {
             const dbDocs = await response.json();
             console.log("Đã lấy được danh sách tài liệu từ Supabase:", dbDocs);
 
-            if (dbDocs.length === 0) {
+            const docs = Array.isArray(dbDocs) ? dbDocs.map(doc => ({
+                id: doc.id,
+                name: doc.name,
+                FileName: doc.name,
+                school: doc.school,
+                schoolName: doc.school,
+                subject: doc.subject === 'kinhtechinhtri' || doc.subject === 'KTCT' ? 'KTCT' : doc.subject,
+                subjectName: doc.subject === 'kinhtechinhtri' || doc.subject === 'KTCT' ? 'KTCT' : doc.subject,
+                years: doc.years,
+                academicYear: doc.years,
+                category: doc.category,
+                discription: doc.discription,
+                description: doc.discription,
+                thumbnail: doc.thumbnail || "Pictures/KTCT.svg",
+                filePath: doc.thumbnail || "Pictures/KTCT.svg", 
+                url: doc.url,
+                fileUrl: doc.url,
+                rating: doc.rating
+            })) : [];
+
+            allCachedDocuments = [...docs];
+            fallbackStaticDocs.forEach(sd => {
+                if (!allCachedDocuments.some(d => (d.name || d.FileName) === (sd.name || sd.FileName))) {
+                    allCachedDocuments.push(sd);
+                }
+            });
+
+            const localDocs = JSON.parse(localStorage.getItem('documents') || '[]');
+            localDocs.forEach(ld => {
+                if (!allCachedDocuments.some(d => (d.name || d.FileName) === (ld.FileName || ld.name))) {
+                    allCachedDocuments.push({
+                        id: ld.id || 'local-' + Date.now(),
+                        name: ld.FileName,
+                        FileName: ld.FileName,
+                        school: ld.schoolName || 'IUH',
+                        schoolName: ld.schoolName || 'IUH',
+                        subject: ld.subjectName || 'KTCT',
+                        subjectName: ld.subjectName || 'KTCT',
+                        years: ld.academicYear || '2025-2026',
+                        academicYear: ld.academicYear || '2025-2026',
+                        category: ld.category || 'Tài liệu',
+                        discription: ld.description || '',
+                        description: ld.description || '',
+                        thumbnail: ld.filePath || 'Pictures/default.svg',
+                        filePath: ld.filePath || 'Pictures/default.svg',
+                        url: ld.filePath || '',
+                        fileUrl: ld.filePath || '',
+                        rating: ld.rating || 0
+                    });
+                }
+            });
+
+            if (docs.length === 0) {
                 console.warn("Bảng PrismUploadDocuments2026 hiện tại đang trống hoặc chưa bật chính sách RLS SELECT công khai. Đang hiển thị tài liệu mặc định/local.");
-                const localDocs = JSON.parse(localStorage.getItem('documents') || '[]');
                 if (localDocs.length > 0) {
                     renderDocuments(localDocs);
                 } else {
@@ -541,29 +689,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const docs = dbDocs.map(doc => ({
-                id: doc.id,
-                FileName: doc.name,
-                schoolName: doc.school,
-                subjectName: doc.subject === 'kinhtechinhtri' || doc.subject === 'KTCT' ? 'KTCT' : doc.subject,
-                academicYear: doc.years,
-                category: doc.category,
-                description: doc.discription,
-                filePath: doc.thumbnail || "Pictures/KTCT.svg", 
-                fileUrl: doc.url,
-                rating: doc.rating
-            }));
             renderDocuments(docs);
             return;
         } catch (err) {
             console.error("Lỗi tải tài liệu từ Supabase:", err);
-        }
+            allCachedDocuments = [...fallbackStaticDocs];
+            const localDocs = JSON.parse(localStorage.getItem('documents') || '[]');
+            localDocs.forEach(ld => {
+                allCachedDocuments.push({
+                    id: ld.id || 'local-' + Date.now(),
+                    name: ld.FileName,
+                    FileName: ld.FileName,
+                    school: ld.schoolName || 'IUH',
+                    schoolName: ld.schoolName || 'IUH',
+                    subject: ld.subjectName || 'KTCT',
+                    subjectName: ld.subjectName || 'KTCT',
+                    years: ld.academicYear || '2025-2026',
+                    academicYear: ld.academicYear || '2025-2026',
+                    category: ld.category || 'Tài liệu',
+                    discription: ld.description || '',
+                    description: ld.description || '',
+                    thumbnail: ld.filePath || 'Pictures/default.svg',
+                    filePath: ld.filePath || 'Pictures/default.svg',
+                    url: ld.filePath || '',
+                    fileUrl: ld.filePath || '',
+                    rating: ld.rating || 0
+                });
+            });
 
-        const localDocs = JSON.parse(localStorage.getItem('documents') || '[]');
-        if (localDocs.length > 0) {
-            renderDocuments(localDocs);
-        } else {
-            bindDetailClick();
+            if (localDocs.length > 0) {
+                renderDocuments(localDocs);
+            } else {
+                bindDetailClick();
+            }
         }
     }
     function renderDocuments(docs) {
@@ -664,81 +822,492 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         bindDetailClick();
     }
+    // ==========================================
+    // HIỆN THỰC HÓA THANH SEARCH TRONG SECTION BANNER
+    // Hỗ trợ tìm kiếm cả Blog và Tài liệu liên quan
+    // ==========================================
     const searchIp = document.getElementById('searchip');
     const nextStepBtn = document.getElementById('nextstep');
+    const searchIconBtn = document.getElementById('search');
     const wrapSearch = document.querySelector('.wrap-search');
-    
+
     function performSearch() {
         const query = searchIp ? searchIp.value.trim() : '';
         if (query) {
             window.location.href = `allfile.html?search=${encodeURIComponent(query)}`;
+        } else {
+            window.location.href = `allfile.html`;
         }
     }
 
     if (searchIp) {
         searchIp.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                performSearch();
+                const highlighted = document.querySelector('.suggestion-item.highlighted');
+                if (highlighted) {
+                    highlighted.click();
+                } else {
+                    performSearch();
+                }
             }
         });
     }
+
     if (nextStepBtn) {
         nextStepBtn.addEventListener('click', performSearch);
     }
+    if (searchIconBtn) {
+        searchIconBtn.addEventListener('click', performSearch);
+    }
+
     if (wrapSearch && searchIp) {
-        const suggestionsBox = document.createElement('div');
-        suggestionsBox.className = 'search-suggestions';
-        wrapSearch.appendChild(suggestionsBox);
-        const staticDocsForSearch = [
-            { title: "KTCT - MacLenin - Chuong ...", subject: "Kinh tế chính trị", cover: "Pictures/KTCT.svg" },
-            { title: "Ki nang lam viec nhom...", subject: "Kỹ năng mềm", cover: "Pictures/KNLVN.svg" },
-            { title: "Chu nghia xa hoi...", subject: "Chủ nghĩa xã hội khoa học", cover: "Pictures/CNXH.svg" },
-            { title: "Triet hoc MacLenin ...", subject: "Triết học Mác - Lênin", cover: "Pictures/MacLenin.svg" }
-        ];
-        searchIp.addEventListener('input', function() {
-            const query = this.value.trim().toLowerCase();
-            suggestionsBox.innerHTML = '';
-            if (!query) {
-                suggestionsBox.classList.remove('active');
-                return;
-            }
-            const localDocs = JSON.parse(localStorage.getItem('documents') || '[]');
-            const allDocs = [...staticDocsForSearch.map(d => ({ FileName: d.title, subjectName: d.subject, filePath: d.cover })),...localDocs
-            ];
-            const matches = allDocs.filter(doc => 
-                doc.FileName.toLowerCase().includes(query) || 
-                doc.subjectName.toLowerCase().includes(query)
-            ).slice(0, 5); 
-            if (matches.length === 0) {
-                suggestionsBox.classList.remove('active');
-                return;
+        // Tạo container hộp gợi ý kết quả
+        let suggestionsBox = wrapSearch.querySelector('.search-suggestions');
+        if (!suggestionsBox) {
+            suggestionsBox = document.createElement('div');
+            suggestionsBox.className = 'search-suggestions';
+            wrapSearch.appendChild(suggestionsBox);
+        }
+
+        let currentActiveTab = 'all'; // 'all' | 'docs' | 'blogs'
+        let highlightedIndex = -1;
+        let searchDebounceTimer = null;
+
+        function removeVietnameseTones(str) {
+            if (!str) return '';
+            str = str.toLowerCase();
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            str = str.replace(/đ/g, "d");
+            str = str.replace(/[\u0300-\u036f]/g, "");
+            return str.trim();
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function highlightMatch(text, query) {
+            if (!text || !query) return escapeHtml(text);
+            const safeText = String(text);
+            const normalizedText = removeVietnameseTones(safeText);
+            const normalizedQuery = removeVietnameseTones(query);
+            if (!normalizedQuery) return escapeHtml(safeText);
+
+            const index = normalizedText.indexOf(normalizedQuery);
+            if (index === -1) return escapeHtml(safeText);
+
+            const before = escapeHtml(safeText.slice(0, index));
+            const match = escapeHtml(safeText.slice(index, index + normalizedQuery.length));
+            const after = escapeHtml(safeText.slice(index + normalizedQuery.length));
+            return `${before}<mark class="search-highlight">${match}</mark>${after}`;
+        }
+
+        function getFileFormat(url, fileName) {
+            const path = (url || fileName || '').toLowerCase();
+            if (path.includes('.pdf')) return 'PDF';
+            if (path.includes('.doc') || path.includes('.docx')) return 'DOCX';
+            if (path.includes('.ppt') || path.includes('.pptx')) return 'PPTX';
+            if (path.includes('.xls') || path.includes('.xlsx')) return 'EXCEL';
+            return 'DOC';
+        }
+
+        function filterItems(query) {
+            const rawQuery = (query || '').trim();
+            const cleanQuery = removeVietnameseTones(rawQuery);
+
+            if (!cleanQuery) {
+                // Trạng thái trending / gợi ý nổi bật ban đầu
+                const trendingDocs = allCachedDocuments.slice(0, 3);
+                const trendingBlogs = allCachedBlogs.slice(0, 3);
+                return {
+                    isTrending: true,
+                    query: '',
+                    matchedDocs: trendingDocs,
+                    matchedBlogs: trendingBlogs,
+                    totalDocs: trendingDocs.length,
+                    totalBlogs: trendingBlogs.length,
+                    totalCount: trendingDocs.length + trendingBlogs.length
+                };
             }
 
-            matches.forEach(doc => {
-                const item = document.createElement('div');
-                item.className = 'suggestion-item';
-                item.innerHTML = `
-                    <img class="thumb" src="${doc.filePath || 'Pictures/default.svg'}" alt="">
-                    <div class="suggestion-info">
-                        <span class="suggestion-title">${doc.FileName}</span>
-                        <span class="suggestion-sub">${doc.subjectName}</span>
+            const tokens = cleanQuery.split(/\s+/).filter(Boolean);
+
+            // Tìm kiếm trong danh sách tài liệu
+            const matchedDocs = allCachedDocuments.filter(doc => {
+                const titleNorm = removeVietnameseTones(doc.name || doc.FileName || '');
+                const subjectNorm = removeVietnameseTones(doc.subjectName || doc.subject || '');
+                const schoolNorm = removeVietnameseTones(doc.schoolName || doc.school || '');
+                const catNorm = removeVietnameseTones(doc.category || '');
+                const descNorm = removeVietnameseTones(doc.discription || doc.description || '');
+                const combined = `${titleNorm} ${subjectNorm} ${schoolNorm} ${catNorm} ${descNorm}`;
+
+                return tokens.every(t => combined.includes(t));
+            }).map(doc => {
+                let score = 0;
+                const titleNorm = removeVietnameseTones(doc.name || doc.FileName || '');
+                if (titleNorm === cleanQuery) score += 50;
+                else if (titleNorm.startsWith(cleanQuery)) score += 30;
+                else if (titleNorm.includes(cleanQuery)) score += 15;
+                return { item: doc, score };
+            }).sort((a, b) => b.score - a.score).map(o => o.item);
+
+            // Tìm kiếm trong danh sách blog
+            const matchedBlogs = allCachedBlogs.filter(blog => {
+                const titleNorm = removeVietnameseTones(blog.tieuDe || '');
+                const descNorm = removeVietnameseTones(blog.moTa || '');
+                const contentNorm = removeVietnameseTones(blog.noiDung || '');
+                const authorNorm = removeVietnameseTones(blog.tacGia || '');
+                const catNorm = removeVietnameseTones(blog.danhMuc || '');
+                const combined = `${titleNorm} ${descNorm} ${contentNorm} ${authorNorm} ${catNorm}`;
+
+                return tokens.every(t => combined.includes(t));
+            }).map(blog => {
+                let score = 0;
+                const titleNorm = removeVietnameseTones(blog.tieuDe || '');
+                if (titleNorm === cleanQuery) score += 50;
+                else if (titleNorm.startsWith(cleanQuery)) score += 30;
+                else if (titleNorm.includes(cleanQuery)) score += 15;
+                return { item: blog, score };
+            }).sort((a, b) => b.score - a.score).map(o => o.item);
+
+            return {
+                isTrending: false,
+                query: rawQuery,
+                matchedDocs,
+                matchedBlogs,
+                totalDocs: matchedDocs.length,
+                totalBlogs: matchedBlogs.length,
+                totalCount: matchedDocs.length + matchedBlogs.length
+            };
+        }
+
+        function renderSuggestions() {
+            const query = searchIp.value.trim();
+            const data = filterItems(query);
+            highlightedIndex = -1;
+
+            if (!data.isTrending && data.totalCount === 0) {
+                // Hiển thị trạng thái rỗng (Empty State)
+                suggestionsBox.innerHTML = `
+                    <div class="search-empty-state">
+                        <div class="search-empty-icon">
+                            <i data-lucide="search-x"></i>
+                        </div>
+                        <div class="search-empty-title">Không tìm thấy kết quả phù hợp với "${escapeHtml(query)}"</div>
+                        <div class="search-empty-desc">Thử tìm kiếm với tên môn học, chủ đề hoặc bấm chọn các từ khóa gợi ý:</div>
+                        <div class="search-trending-chips">
+                            <span class="search-trending-chip" data-search="Kinh tế chính trị">Kinh tế chính trị</span>
+                            <span class="search-trending-chip" data-search="C++">Lập trình C++</span>
+                            <span class="search-trending-chip" data-search="Hệ thống máy tính">Hệ thống máy tính</span>
+                            <span class="search-trending-chip" data-search="Triết học">Triết học</span>
+                            <span class="search-trending-chip" data-search="Làm việc nhóm">Kỹ năng mềm</span>
+                        </div>
+                    </div>
+                    <div class="suggestion-footer">
+                        <span class="suggestion-footer-hint">DocZone Smart Search</span>
+                        <a href="allfile.html" class="suggestion-footer-link">
+                            <span>Khám phá toàn bộ thư viện</span>
+                            <i data-lucide="arrow-right"></i>
+                        </a>
                     </div>
                 `;
-                item.addEventListener('click', () => {
-                    searchIp.value = doc.FileName;
-                    suggestionsBox.classList.remove('active');
-                    window.location.href = `allfile.html?search=${encodeURIComponent(doc.FileName)}`;
+                bindSearchEvents();
+                openDropdown();
+                return;
+            }
+
+            // Giao diện có kết quả hoặc gợi ý ban đầu
+            let html = `
+                <div class="suggestion-tabs">
+                    <button type="button" class="suggestion-tab ${currentActiveTab === 'all' ? 'active' : ''}" data-tab="all">
+                        <span>Tất cả</span>
+                        <span class="suggestion-tab-count">${data.totalCount}</span>
+                    </button>
+                    <button type="button" class="suggestion-tab ${currentActiveTab === 'docs' ? 'active' : ''}" data-tab="docs">
+                        <span>Tài liệu</span>
+                        <span class="suggestion-tab-count">${data.totalDocs}</span>
+                    </button>
+                    <button type="button" class="suggestion-tab ${currentActiveTab === 'blogs' ? 'active' : ''}" data-tab="blogs">
+                        <span>Bài viết Blog</span>
+                        <span class="suggestion-tab-count">${data.totalBlogs}</span>
+                    </button>
+                </div>
+                <div class="suggestion-content">
+            `;
+
+            if (data.isTrending) {
+                html += `
+                    <div class="search-trending-section">
+                        <div class="search-trending-heading">
+                            <i data-lucide="flame"></i>
+                            <span>Gợi ý tìm kiếm phổ biến</span>
+                        </div>
+                        <div class="search-trending-chips" style="justify-content: flex-start; margin-bottom: 12px;">
+                            <span class="search-trending-chip" data-search="Kinh tế chính trị">Kinh tế chính trị</span>
+                            <span class="search-trending-chip" data-search="C++">C++</span>
+                            <span class="search-trending-chip" data-search="Hệ thống máy tính">Hệ thống máy tính</span>
+                            <span class="search-trending-chip" data-search="Slide bài giảng">Slide bài giảng</span>
+                            <span class="search-trending-chip" data-search="Đề thi cuối kỳ">Đề thi cuối kỳ</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Danh sách tài liệu
+            const showDocs = (currentActiveTab === 'all' || currentActiveTab === 'docs') && data.matchedDocs.length > 0;
+            if (showDocs) {
+                const limitDocs = currentActiveTab === 'all' ? 4 : 8;
+                const docsSlice = data.matchedDocs.slice(0, limitDocs);
+                html += `
+                    <div class="suggestion-group">
+                        <div class="suggestion-group-header">
+                            <div class="suggestion-group-title">
+                                <i data-lucide="book-open"></i>
+                                <span>Tài liệu học tập liên quan</span>
+                            </div>
+                            <span class="suggestion-group-badge">${data.totalDocs} tài liệu</span>
+                        </div>
+                `;
+
+                docsSlice.forEach((doc, idx) => {
+                    const format = getFileFormat(doc.fileUrl || doc.url, doc.name || doc.FileName);
+                    const titleHighlighted = highlightMatch(doc.name || doc.FileName, query);
+                    const subject = doc.subjectName || doc.subject || 'Tổng hợp';
+                    const school = doc.schoolName || doc.school || 'IUH';
+                    const category = doc.category || 'Tài liệu';
+
+                    html += `
+                        <div class="suggestion-item doc-item" data-type="doc" data-index="${idx}" data-doc-id="${doc.id || ''}">
+                            <div class="suggestion-thumb-wrap">
+                                <img src="${doc.filePath || doc.thumbnail || 'Pictures/default.svg'}" alt="" onerror="this.src='Pictures/default.svg'">
+                                <span class="format-badge">${format}</span>
+                            </div>
+                            <div class="suggestion-info">
+                                <div class="suggestion-title" title="${escapeHtml(doc.name || doc.FileName)}">${titleHighlighted}</div>
+                                <div class="suggestion-meta">
+                                    <span class="suggestion-meta-tag subject">${escapeHtml(subject)}</span>
+                                    <span class="suggestion-meta-tag school">${escapeHtml(school)}</span>
+                                    <span class="suggestion-meta-tag">${escapeHtml(category)}</span>
+                                </div>
+                            </div>
+                            <span class="suggestion-badge badge-doc">
+                                <i data-lucide="file-text" style="width: 12px; height: 12px;"></i>
+                                <span>Tài liệu</span>
+                            </span>
+                        </div>
+                    `;
                 });
-                suggestionsBox.appendChild(item);
+                html += `</div>`;
+            }
+
+            // Danh sách blog
+            const showBlogs = (currentActiveTab === 'all' || currentActiveTab === 'blogs') && data.matchedBlogs.length > 0;
+            if (showBlogs) {
+                const limitBlogs = currentActiveTab === 'all' ? 4 : 8;
+                const blogsSlice = data.matchedBlogs.slice(0, limitBlogs);
+                html += `
+                    <div class="suggestion-group">
+                        <div class="suggestion-group-header">
+                            <div class="suggestion-group-title">
+                                <i data-lucide="feather"></i>
+                                <span>Bài viết Blog liên quan</span>
+                            </div>
+                            <span class="suggestion-group-badge">${data.totalBlogs} bài viết</span>
+                        </div>
+                `;
+
+                blogsSlice.forEach((blog, idx) => {
+                    const titleHighlighted = highlightMatch(blog.tieuDe, query);
+                    let dateStr = '';
+                    if (blog.ngayDang || blog.ngayTao) {
+                        const d = new Date(blog.ngayDang || blog.ngayTao);
+                        dateStr = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+                    }
+                    const category = blog.danhMuc || (blog.tacGia ? `Bởi ${blog.tacGia}` : 'Chia sẻ kinh nghiệm');
+
+                    html += `
+                        <div class="suggestion-item blog-item" data-type="blog" data-slug="${escapeHtml(blog.duongDan)}">
+                            <div class="suggestion-thumb-wrap">
+                                <img src="${blog.anhMinhHoa || 'Pictures/KTCT.svg'}" alt="" onerror="this.src='Pictures/KTCT.svg'">
+                            </div>
+                            <div class="suggestion-info">
+                                <div class="suggestion-title" title="${escapeHtml(blog.tieuDe)}">${titleHighlighted}</div>
+                                <div class="suggestion-meta">
+                                    <span class="suggestion-meta-tag subject" style="background: #faf5ff; color: #9333ea;">${escapeHtml(category)}</span>
+                                    ${dateStr ? `<span class="suggestion-meta-tag date">${dateStr}</span>` : ''}
+                                </div>
+                            </div>
+                            <span class="suggestion-badge badge-blog">
+                                <i data-lucide="feather" style="width: 12px; height: 12px;"></i>
+                                <span>Blog</span>
+                            </span>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            html += `</div>`; // Đóng suggestion-content
+
+            // Footer
+            const queryParam = encodeURIComponent(query);
+            const viewAllUrl = query ? `allfile.html?search=${queryParam}` : `allfile.html`;
+            const footerText = query ? `Xem tất cả ${data.totalCount} kết quả cho "${escapeHtml(query)}" trên trang tài liệu` : `Xem toàn bộ kho tài liệu và bài viết`;
+
+            html += `
+                <div class="suggestion-footer">
+                    <span class="suggestion-footer-hint">Nhấn <kbd style="background: #e2e8f0; padding: 2px 5px; border-radius: 4px; font-size: 10px;">Enter</kbd> để tìm kiếm</span>
+                    <a href="${viewAllUrl}" class="suggestion-footer-link">
+                        <span>${footerText}</span>
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+            `;
+
+            suggestionsBox.innerHTML = html;
+            bindSearchEvents(data);
+            openDropdown();
+        }
+
+        function bindSearchEvents(data) {
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+
+            // Tabs chuyển đổi (Tất cả, Tài liệu, Blog)
+            const tabs = suggestionsBox.querySelectorAll('.suggestion-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentActiveTab = tab.getAttribute('data-tab');
+                    renderSuggestions();
+                });
             });
 
+            // Chips gợi ý bấm nhanh
+            const chips = suggestionsBox.querySelectorAll('.search-trending-chip');
+            chips.forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const text = chip.getAttribute('data-search') || chip.textContent.trim();
+                    searchIp.value = text;
+                    searchIp.focus();
+                    renderSuggestions();
+                });
+            });
+
+            // Click vào card tài liệu
+            const docItems = suggestionsBox.querySelectorAll('.suggestion-item.doc-item');
+            docItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const docId = item.getAttribute('data-doc-id');
+                    const targetDoc = allCachedDocuments.find(d => String(d.id) === String(docId)) || {
+                        id: docId,
+                        name: item.querySelector('.suggestion-title')?.textContent || 'Tài liệu',
+                        school: 'IUH',
+                        subject: 'KTCT',
+                        discription: 'Tài liệu học tập sinh viên',
+                        url: 'uploads/KTCT.pdf'
+                    };
+                    closeDropdown();
+                    openDocumentDetail(targetDoc);
+                });
+            });
+
+            // Click vào card blog
+            const blogItems = suggestionsBox.querySelectorAll('.suggestion-item.blog-item');
+            blogItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const slug = item.getAttribute('data-slug');
+                    closeDropdown();
+                    if (typeof window.openBlogModal === 'function') {
+                        window.openBlogModal(slug);
+                    } else {
+                        window.location.href = `blog.html?slug=${encodeURIComponent(slug)}`;
+                    }
+                });
+            });
+        }
+
+        function openDropdown() {
             suggestionsBox.classList.add('active');
+            wrapSearch.classList.add('has-suggestions');
+        }
+
+        function closeDropdown() {
+            suggestionsBox.classList.remove('active');
+            wrapSearch.classList.remove('has-suggestions');
+            highlightedIndex = -1;
+        }
+
+        // Sự kiện gõ tìm kiếm với debounce 150ms
+        searchIp.addEventListener('input', function() {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                renderSuggestions();
+            }, 120);
         });
-        document.addEventListener('click', function(e) {
-            if (!wrapSearch.contains(e.target)) {
-                suggestionsBox.classList.remove('active');
+
+        // Sự kiện focus vào ô input -> mở gợi ý
+        searchIp.addEventListener('focus', function() {
+            renderSuggestions();
+        });
+
+        // Điều khiển bằng bàn phím (ArrowUp, ArrowDown, Escape)
+        searchIp.addEventListener('keydown', function(e) {
+            const items = suggestionsBox.querySelectorAll('.suggestion-item');
+            if (!suggestionsBox.classList.contains('active') || items.length === 0) {
+                if (e.key === 'ArrowDown') {
+                    renderSuggestions();
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                highlightedIndex = (highlightedIndex + 1) % items.length;
+                updateHighlightedItem(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                highlightedIndex = (highlightedIndex - 1 + items.length) % items.length;
+                updateHighlightedItem(items);
+            } else if (e.key === 'Escape') {
+                closeDropdown();
             }
         });
+
+        function updateHighlightedItem(items) {
+            items.forEach((it, idx) => {
+                if (idx === highlightedIndex) {
+                    it.classList.add('highlighted');
+                    it.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                } else {
+                    it.classList.remove('highlighted');
+                }
+            });
+        }
+
+        // Đóng dropdown khi click ra ngoài wrapSearch
+        document.addEventListener('click', function(e) {
+            if (!wrapSearch.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+    }
+
     const wraps = document.querySelectorAll('.section-newUp .wrap');
     wraps.forEach(wrap => {
         const arrows = wrap.querySelectorAll('.arrow');
@@ -916,12 +1485,55 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    const fallbackStaticBlogs = [
+        {
+            id: 2,
+            tieuDe: "CẤP PHÁT ĐỘNG CHO MẢNG MỘT CHIỀU TRONG C++",
+            duongDan: "cap-phat-dong-cho-mang-mot-chieu-trong-c",
+            moTa: "Bài viết phục vụ cho cấp phát động cho mảng một chiều trong C++, quản lý con trỏ và vùng nhớ heap.",
+            anhMinhHoa: "Pictures/KTCT.svg",
+            ngayDang: "2026-06-21T15:20:39.726",
+            tacGia: "Admin",
+            danhMuc: "Lập trình C++"
+        },
+        {
+            id: 101,
+            tieuDe: "Bí quyết ôn thi cuối kỳ đạt điểm cao môn Kinh tế chính trị",
+            duongDan: "bi-quyet-on-thi-cuoi-ky-ktct",
+            moTa: "Tổng hợp mẹo ôn tập, sơ đồ tư duy giá trị thặng dư và trọn bộ 300 câu hỏi trắc nghiệm trọng tâm nhất.",
+            anhMinhHoa: "Pictures/KTCT.svg",
+            ngayDang: "2026-04-10T10:00:00",
+            tacGia: "Ban Biên Tập",
+            danhMuc: "Kinh nghiệm ôn thi"
+        },
+        {
+            id: 102,
+            tieuDe: "Kỹ năng làm việc nhóm hiệu quả cho sinh viên",
+            duongDan: "ky-nang-lam-viec-nhom-hieu-qua",
+            moTa: "Phương pháp phân chia nhiệm vụ công bằng, giải quyết xung đột ý kiến và báo cáo bài tập lớn đạt điểm tối đa.",
+            anhMinhHoa: "Pictures/KNLVN.svg",
+            ngayDang: "2026-03-15T08:30:00",
+            tacGia: "DocZone Club",
+            danhMuc: "Kỹ năng mềm"
+        },
+        {
+            id: 103,
+            tieuDe: "Tổng hợp kiến thức Hệ thống máy tính - CPU & Bộ nhớ",
+            duongDan: "tong-hop-kien-thuc-he-thong-may-tinh",
+            moTa: "Cẩm nang ôn tập kiến trúc máy tính, phân tầng bộ nhớ Cache - RAM và chu kỳ thực thi lệnh.",
+            anhMinhHoa: "Pictures/CNXH.svg",
+            ngayDang: "2026-02-20T14:15:00",
+            tacGia: "Ban Học Thuật",
+            danhMuc: "Công nghệ thông tin"
+        }
+    ];
+
     async function loadFeaturedBlogs() {
         const container = document.getElementById('featuredBlogsContainer');
         if (!container) return;
 
         try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/blogs?order=ngayDang.desc&limit=3`, {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/blogs?order=ngayDang.desc`, {
                 method: "GET",
                 headers: {
                     "apikey": SUPABASE_KEY,
@@ -935,10 +1547,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const blogs = await response.json();
             console.log("Đã lấy được danh sách bài viết từ Supabase:", blogs);
-            renderFeaturedBlogs(blogs);
+
+            allCachedBlogs = Array.isArray(blogs) && blogs.length > 0 ? [...blogs] : [];
+            fallbackStaticBlogs.forEach(fb => {
+                if (!allCachedBlogs.some(b => b.duongDan === fb.duongDan || b.tieuDe === fb.tieuDe)) {
+                    allCachedBlogs.push(fb);
+                }
+            });
+
+            renderFeaturedBlogs(allCachedBlogs.slice(0, 3));
         } catch (err) {
             console.error("Lỗi khi tải bài viết nổi bật:", err);
-            container.innerHTML = '<p style="text-align: center; color: #6B7280; grid-column: span 3; padding: 40px 0; width: 100%;">Không thể tải danh sách bài viết nổi bật.</p>';
+            allCachedBlogs = [...fallbackStaticBlogs];
+            renderFeaturedBlogs(allCachedBlogs.slice(0, 3));
         }
     }
 
@@ -1120,4 +1741,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 200 * (idx + 1));
         });
     }, 100);
-}});
+});

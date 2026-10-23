@@ -162,6 +162,9 @@ button:active {
 }
 
 .dropdown-content {
+    backdrop-filter: brightness(1.1) 
+        blur(6px)
+        url(#displacementFilter);
     padding: 8px 11px;
     align-items: center;
     justify-content: center;
@@ -175,10 +178,10 @@ button:active {
     z-index: 9999 !important;
     border: 1px solid #FFFFFF;
     background: #FFFFFF14;
-    backdrop-filter: blur(45px);
     box-shadow: 0px 0px 5px 0px #00000024, 
                 -2px -2px 10px 1px #FFFFFF99 inset, 
                 2px 2px 10px 1px #FFFFFF99 inset;
+    
 }
 
 .dropdown-content li a {
@@ -221,7 +224,6 @@ button:active {
     gap: 5px;
 }
 
-/* Notification Bell */
 .notifi {
     display: flex;
     align-items: center;
